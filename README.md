@@ -92,7 +92,6 @@ The tracker is maintained regularly. If you spot outdated information — wrong 
 ---
 
 *Built with ❤️ by Rohith — a student who got tired of spreadsheets.*
-```
 
 ---
 
