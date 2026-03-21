@@ -772,18 +772,21 @@
   /* ── WATERMARK ── */
   .watermark {
     position: fixed;
-    bottom: 22px;
-    right: 28px;
+    bottom: 118px;
+    right: -77px;
+    transform: rotate(-90deg);
+    transform-origin: center center;
     font-family: 'DM Mono', monospace;
     font-size: 10px;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     color: var(--text-dim);
-    opacity: 0.35;
+    opacity: 0.3;
     pointer-events: none;
     user-select: none;
     z-index: 10;
+    white-space: nowrap;
   }
-  html.light .watermark { opacity: 0.28; }
+  html.light .watermark { opacity: 0.22; }
 
   /* ── ANIMATIONS ── */
   @keyframes fadeIn {
@@ -806,7 +809,6 @@
     .hero-actions { display: none; }
     .import-cluster { display: none; }
     .user-counter { display: none; }
-    .watermark { display: none; }
   }
 
   @media (max-width: 1100px) {
@@ -832,6 +834,63 @@
   @media (max-width: 1280px) {
     /* Scale down layout padding */
     .layout { padding: 20px 20px 60px; }
+  }
+
+  /* ── SCREEN SIZE TOAST ── */
+  .screen-toast {
+    position: fixed;
+    top: 66px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9000;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px 16px 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    max-width: 420px;
+    width: calc(100vw - 40px);
+    display: none;
+  }
+  .screen-toast.visible { display: block; animation: fadeIn 0.3s ease; }
+  .screen-toast-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .screen-toast-msg {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    flex: 1;
+  }
+  .screen-toast-msg strong { color: var(--text); }
+  .screen-toast-close {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .screen-toast-close:hover { color: var(--text); }
+  .screen-toast-bar-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .screen-toast-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    width: 100%;
+    transition: width 0.1s linear;
   }
 
   /* Lock background scroll when modal open */
@@ -2084,44 +2143,51 @@
 <!-- ── LOGIN OVERLAY ── -->
 <div id="loginOverlay">
   <div class="login-card">
-    <div class="login-logo">Actuarial Tracker</div>
-    <div class="login-sub">Australia · Rohith Narayanan</div>
-
-    <div class="login-field">
-      <label>Email Address</label>
-      <input type="email" id="loginEmail" class="login-input" placeholder="your@email.com" autocomplete="email">
+    <div style="text-align:center;margin-bottom:20px;">
+      <img src="data:image/png;base64,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"
+           alt="Australia" style="width:48px;height:33px;object-fit:contain;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;">
+      <div class="login-logo">Actuarial Tracker</div>
+      <div class="login-sub" style="text-align:center;margin-top:4px;">A free tool for Australian actuarial students</div>
     </div>
-
-    <div class="login-row">
-      <label class="remember-label">
-        <input type="checkbox" id="rememberMe"> Remember me
-      </label>
-    </div>
-
-    <div class="login-error" id="loginError"></div>
-    <button class="login-btn" onclick="attemptLogin()">Sign In</button>
-    <div class="login-sending" id="loginSending">Signing in…</div>
 
     <div class="login-divider"></div>
 
     <div class="terms-box">
       <h4>Terms &amp; Conditions of Use</h4>
-      <p><strong>1. Access.</strong> This application tracker ("the Tool") is made available by Rohith Narayanan free of charge to actuarial students across Australia. Access is personal and non-transferable. You may not share your login credentials with any third party.</p>
-      <p><strong>2. Prohibition on Reproduction.</strong> You must not copy, reproduce, duplicate, screenshot, scrape, or otherwise extract the content, data, structure, or code of this Tool, in whole or in part, by any means, without the express prior written consent of Rohith Narayanan.</p>
-      <p><strong>3. Prohibition on Distribution.</strong> You must not distribute, publish, broadcast, transmit, sublicense, sell, or otherwise make available to any third party any content, data, or materials derived from this Tool.</p>
-      <p><strong>4. Prohibition on Derivative Works.</strong> You must not modify, adapt, translate, reverse-engineer, decompile, disassemble, or create derivative works based on the Tool or any part of its content or underlying code.</p>
-      <p><strong>5. Intellectual Property.</strong> All content, data, design, code, and compilation within this Tool remain the intellectual property of Rohith Narayanan. No licence, right, title, or interest in any intellectual property is granted to you beyond the limited right to access and use the Tool for personal, non-commercial purposes.</p>
-      <p><strong>6. Personal Use Only.</strong> The Tool is provided solely for your personal reference and job-application tracking. Any commercial use is strictly prohibited.</p>
-      <p><strong>7. No Warranty.</strong> The Tool is provided on an "as is" basis. Rohith Narayanan makes no representations or warranties of any kind, express or implied, regarding the accuracy, completeness, or fitness for purpose of any information contained herein.</p>
-      <p><strong>8. Monitoring.</strong> Your access to and use of this Tool may be logged and monitored. By proceeding, you acknowledge and consent to this.</p>
-      <p><strong>9. Governing Law.</strong> These Terms are governed by the laws of New South Wales, Australia. Any dispute arising in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of New South Wales.</p>
-      <p><strong>10. Acceptance.</strong> By ticking the checkbox below and signing in, you confirm that you have read, understood, and agree to be bound by these Terms &amp; Conditions in full.</p>
+      <p><strong>1. Access.</strong> This application tracker is provided by Rohith Narayanan free of charge for actuarial students in Australia. Access is intended for personal use.</p>
+      <p><strong>2. Use of the Tool.</strong> The Tool is provided to assist with tracking job applications. You agree to use it only for personal, non-commercial purposes.</p>
+      <p><strong>3. Restrictions.</strong> You are expected not to:
+        <br>- copy, reproduce, or redistribute the Tool or its contents beyond personal use
+        <br>- scrape, extract, or systematically collect data from the Tool
+        <br>- reverse-engineer, decompile, or replicate the Tool or its underlying structure
+      </p>
+      <p><strong>4. Intellectual Property.</strong> All content, design, and code within the Tool remain the intellectual property of Rohith Narayanan.</p>
+      <p><strong>5. No Warranty &amp; Accuracy.</strong> The Tool is provided on an "as is" basis. Rohith Narayanan makes no guarantees regarding the accuracy, completeness, or reliability of any information within the Tool. The Tool may contain errors or outdated information.</p>
+      <p><strong>6. Limitation of Responsibility.</strong> Rohith Narayanan is not responsible for any loss, damage, or inconvenience arising from reliance on the Tool, including (but not limited to) missed opportunities, incorrect information, or tracking errors.</p>
+      <p><strong>7. Changes to Terms.</strong> These Terms may be updated from time to time. Continued use of the Tool indicates acceptance of any updated Terms.</p>
+      <p><strong>8. Acceptance.</strong> By proceeding, you confirm that you have read and agree to these Terms.</p>
     </div>
 
-    <label class="terms-accept" id="termsLabel">
+    <label class="terms-accept" id="termsLabel" style="margin-top:12px;margin-bottom:16px;">
       <input type="checkbox" id="termsCheck">
       I have read and agree to the Terms &amp; Conditions above
     </label>
+
+    <div class="login-error" id="loginError"></div>
+    <button class="login-btn" onclick="attemptLogin()">Enter</button>
+  </div>
+</div>
+
+<!-- ── SCREEN SIZE TOAST ── -->
+<div class="screen-toast" id="screenToast">
+  <div class="screen-toast-top">
+    <div class="screen-toast-msg">
+      <strong>Best viewed on a larger screen.</strong> Some content may appear cramped or overlap on smaller displays. For the full experience, try expanding your browser window or using a larger screen.
+    </div>
+    <button class="screen-toast-close" onclick="dismissScreenToast()" title="Dismiss">✕</button>
+  </div>
+  <div class="screen-toast-bar-track">
+    <div class="screen-toast-bar-fill" id="screenToastBar"></div>
   </div>
 </div>
 
@@ -2167,10 +2233,6 @@
         Feedback
       </button>
       <button class="help-btn" onclick="openHelp()" title="How to use this tracker">?</button>
-      <button class="logout-btn" onclick="logOut()" title="Log out">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Log out
-      </button>
       <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
     </div>
   </div>
@@ -3764,9 +3826,16 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closeModal(); closeHelp(); closeFeedback(); closeImportModal(); closeAboutMe(); closeChangelog(); }
   });
-  // Load user counter (non-blocking)
-  loadAndIncrementCounter();
+
 });
+
+function dismissScreenToast() {
+  const toast = document.getElementById('screenToast');
+  if (!toast) return;
+  if (toast._timer) clearInterval(toast._timer);
+  toast.classList.remove('visible');
+  sessionStorage.setItem('mq_screen_toast_dismissed', '1');
+}
 </script>
 <!-- ── ADD COMPANY MODAL ── -->
 <div class="modal-overlay" id="addModal">
@@ -4078,83 +4147,61 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- ── LOGIN SCRIPT ── -->
 <script>
 // ─────────────────────────────────────────────────────
-// CONFIGURATION: set your details here
+// CONFIGURATION
 // ─────────────────────────────────────────────────────
-// 1. Go to https://formspree.io, create a free account,
-//    create a new form, and paste your form endpoint below.
-//    It looks like: https://formspree.io/f/xxxxxxxx
 const FORMSPREE_URL = 'https://formspree.io/f/xpqynpyk';
-
-// 2. Set the password users must enter to access the tracker.
-//    Change this to whatever password you share with your group.
-const ACCESS_PASSWORD = 'Actltracker';
 // ─────────────────────────────────────────────────────
 
-const SEEN_KEY        = 'mq_seen_emails';    // stores emails that have already sent a notification
-const SESSION_KEY     = 'mq_authed';          // sessionStorage: keeps you logged in for the tab
-const PERSIST_KEY     = 'mq_remember';        // localStorage: "remember me" flag (legacy, kept for compat)
-const PERSIST_EMAIL_KEY = 'mq_rem_email';     // localStorage: remembered email
-const PERSIST_PASS_KEY  = 'mq_rem_pass';      // localStorage: remembered password
-const TERMS_KEY       = 'mq_terms_accepted';  // localStorage: terms accepted flag
+const SESSION_KEY = 'mq_authed';
+const TERMS_KEY   = 'mq_terms_accepted';
 
-function getSeenEmails() {
-  try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch(e) { return []; }
-}
-
-function markEmailSeen(email) {
-  const seen = getSeenEmails();
-  if (!seen.includes(email)) {
-    seen.push(email);
-    localStorage.setItem(SEEN_KEY, JSON.stringify(seen));
-  }
-}
-
-function isFirstTime(email) {
-  return !getSeenEmails().includes(email.toLowerCase().trim());
-}
-
-async function sendNotification(email) {
-  // Fire-and-forget: never block login regardless of outcome
+function sendEntryNotification() {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 4000); // 4s max
-  try {
-    await fetch(FORMSPREE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: `Actuarial Tracker: New Login: ${email}`,
-        email: email,
-        message: `A new user has logged into the Actuarial Tracker.\n\nEmail: ${email}\nTime: ${new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' })}\nUser Agent: ${navigator.userAgent}`
-      }),
-      signal: controller.signal
-    });
-  } catch(e) {
-    // Silent fail: network error or timeout, login still proceeds
-  } finally {
-    clearTimeout(timeout);
-  }
+  const timeout = setTimeout(() => controller.abort(), 4000);
+  fetch(FORMSPREE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: 'Actuarial Tracker: New Entry',
+      message: 'Someone entered the Actuarial Tracker for the first time from this browser.\n\nTime: ' +
+        new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' }) +
+        '\nUser Agent: ' + navigator.userAgent
+    }),
+    signal: controller.signal
+  }).catch(() => {}).finally(() => clearTimeout(timeout));
 }
 
 function unlockTracker() {
   const overlay = document.getElementById('loginOverlay');
+  document.body.classList.remove('modal-open');
   overlay.classList.add('fade-out');
   setTimeout(() => { overlay.style.display = 'none'; }, 420);
+  // Start screen size toast after entry
+  if (!sessionStorage.getItem('mq_screen_toast_dismissed')) {
+    const toast = document.getElementById('screenToast');
+    const bar   = document.getElementById('screenToastBar');
+    if (toast && bar) {
+      toast.classList.add('visible');
+      const duration = 20000;
+      const start = Date.now();
+      const tick = setInterval(() => {
+        const elapsed = Date.now() - start;
+        const pct = Math.max(0, 100 - (elapsed / duration * 100));
+        bar.style.width = pct + '%';
+        if (elapsed >= duration) { clearInterval(tick); dismissScreenToast(); }
+      }, 100);
+      toast._timer = tick;
+    }
+  }
 }
 
 function showLogin() {
   const overlay = document.getElementById('loginOverlay');
   overlay.style.display = 'flex';
   overlay.classList.remove('fade-out');
-  // Scroll terms box to top
+  document.body.classList.add('modal-open');
   const termsBox = overlay.querySelector('.terms-box');
-  if (termsBox) termsBox.scrollTop = 0;
-  // Pre-fill remembered email
-  const rememberedEmail = localStorage.getItem(PERSIST_EMAIL_KEY) || '';
-  if (rememberedEmail) {
-    document.getElementById('loginEmail').value = rememberedEmail;
-    document.getElementById('rememberMe').checked = true;
-  }
-  // Terms: pre-check if they've accepted before
+  if (termsBox) setTimeout(() => { termsBox.scrollTop = 0; }, 0);
   if (localStorage.getItem(TERMS_KEY) === '1') {
     document.getElementById('termsCheck').checked = true;
   }
@@ -4166,77 +4213,48 @@ function logOut() {
 }
 
 function checkAutoLogin() {
-  // Always show login: but pre-fill if remembered
   const theme = localStorage.getItem('mq_actuarial_theme');
   if (theme === 'light') document.documentElement.classList.add('light');
+  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    document.body.classList.remove('modal-open');
+    document.getElementById('loginOverlay').style.display = 'none';
+    return;
+  }
   showLogin();
 }
 
 function attemptLogin() {
-  const emailEl    = document.getElementById('loginEmail');
   const termsEl    = document.getElementById('termsCheck');
   const termsLabel = document.getElementById('termsLabel');
   const errorEl    = document.getElementById('loginError');
-  const sendingEl  = document.getElementById('loginSending');
-  const rememberEl = document.getElementById('rememberMe');
 
-  const email = emailEl.value.trim().toLowerCase();
-  const terms = termsEl.checked;
-
-  // Reset errors
-  emailEl.classList.remove('error');
   termsLabel.classList.remove('error-highlight');
   errorEl.style.display = 'none';
 
-  // Validate
-  let hasError = false;
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    emailEl.classList.add('error');
-    hasError = true;
-  }
-  if (!terms) {
+  if (!termsEl.checked) {
     termsLabel.classList.add('error-highlight');
-    hasError = true;
-  }
-  if (hasError) {
-    errorEl.textContent = 'Please enter a valid email and accept the Terms & Conditions.';
+    errorEl.textContent = 'Please accept the Terms & Conditions to continue.';
     errorEl.style.display = 'block';
     return;
   }
 
-  // Valid: show sending state
-  sendingEl.style.display = 'block';
-
-  // Send notification only on first login from this browser: fire and forget, never block
-  if (isFirstTime(email)) {
-    sendNotification(email); // intentionally NOT awaited
-    markEmailSeen(email);
-  }
-
-  // Persist session
+  localStorage.setItem(TERMS_KEY, '1');
   sessionStorage.setItem(SESSION_KEY, '1');
-  sessionStorage.setItem('mq_session_email', email); // for feedback form
-  if (rememberEl.checked) {
-    localStorage.setItem(PERSIST_EMAIL_KEY, email);
-    localStorage.setItem(PERSIST_KEY, '1');
-  } else {
-    localStorage.removeItem(PERSIST_EMAIL_KEY);
-    localStorage.removeItem(PERSIST_KEY);
-  }
-  if (terms) localStorage.setItem(TERMS_KEY, '1');
 
-  sendingEl.style.display = 'none';
+  if (!localStorage.getItem('mq_notified')) {
+    sendEntryNotification();
+    localStorage.setItem('mq_notified', '1');
+  }
+
   unlockTracker();
 }
 
-// Allow pressing Enter to submit
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && document.getElementById('loginOverlay').style.display !== 'none') {
     attemptLogin();
   }
 });
 
-// Run auto-login check on load
 checkAutoLogin();
 </script>
 
