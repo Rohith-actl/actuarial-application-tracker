@@ -3530,20 +3530,10 @@ async function loadAndIncrementCounter() {
   try {
     const isNew = localStorage.getItem(VISITOR_KEY) !== '1';
     const url = COUNTER_URL + '?action=' + (isNew ? 'hit' : 'get');
-
-    // Google Apps Script requires following redirects; no-cors won't parse JSON
-    // so we use a plain fetch with redirect:follow
-    const res = await fetch(url, { redirect: 'follow' });
+    const res = await fetch(url);
     if (!res.ok) throw new Error('fetch failed ' + res.status);
-    const text = await res.text();
-    // Parse — handle both JSON and plain number responses
-    let count = 0;
-    try {
-      const data = JSON.parse(text);
-      count = data.count ?? data.value ?? 0;
-    } catch(e) {
-      count = parseInt(text) || 0;
-    }
+    const data = await res.json();
+    const count = data.count ?? data.value ?? 0;
     if (isNew) localStorage.setItem(VISITOR_KEY, '1');
     countEl.textContent = Math.max(count, 1).toLocaleString('en-AU');
   } catch(e) {
