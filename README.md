@@ -16,7 +16,7 @@ It's free. It's private. And it's built by a student, for students.
 
 ## Features
 
-### 📋 90+ Companies, Fully Curated
+### 📋 Over 75 Companies (with more being added), Fully Curated
 Every major actuarial employer in Australia, organised by sector. Each entry includes:
 - Application open/close dates
 - Programme type (pricing, valuation, consulting, risk, etc.)
@@ -81,7 +81,7 @@ Password-protected with Terms & Conditions. First-time logins are logged so the 
 ## How to Access
 
 This tracker is shared with Australian actuarial students.
-If you'd like access, please use the file.
+If you'd like access, please use the file or link provided.
 
 ---
 
