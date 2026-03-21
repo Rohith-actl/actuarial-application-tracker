@@ -808,7 +808,6 @@
     .progress-bar-wrap { display: none; }
     .hero-actions { display: none; }
     .import-cluster { display: none; }
-    .user-counter { display: none; }
   }
 
   @media (max-width: 1100px) {
@@ -1782,39 +1781,6 @@
   @media (max-width: 768px) {
     .sidebar { width: 100%; }
     .sidebar.open + .sidebar-tab { right: 100%; }
-  }
-  /* ── USER COUNTER (fixed bottom-left) ── */
-  .user-counter {
-    position: fixed;
-    bottom: 22px;
-    left: 24px;
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--text-muted);
-    white-space: nowrap;
-    opacity: 0.6;
-    transition: opacity 0.2s;
-    letter-spacing: 0.3px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    padding: 4px 10px 4px 8px;
-  }
-  .user-counter:hover { opacity: 1; }
-  .user-counter .uc-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #4ade80;
-    animation: ucPulse 2.4s ease-in-out infinite;
-    flex-shrink: 0;
-  }
-  @keyframes ucPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.45; transform: scale(0.75); }
   }
 
   /* ── FEEDBACK BUTTON ── */
@@ -3513,33 +3479,6 @@ function submitFeedback() {
   document.getElementById('feedbackFooter').innerHTML = '<div></div><div class="modal-actions"><button class="btn-add" onclick="closeFeedback()">Done</button></div>';
 }
 
-// ── USER COUNTER ──
-// Uses a Google Apps Script web app backed by Google Sheets.
-// Free, reliable, handles thousands of users, and you own the data.
-// Set COUNTER_URL to your deployed Apps Script URL (see setup instructions).
-const COUNTER_URL = 'https://script.google.com/macros/s/AKfycby4wN8bdRUxAaGPu1cOXhD3rC_SS71sRFiLVF9ScjbHaYRB_V928pDzCIu_B4oMO9E/exec';
-const VISITOR_KEY = 'mq_visitor_counted_v3';
-
-async function loadAndIncrementCounter() {
-  const el      = document.getElementById('userCounter');
-  const countEl = document.getElementById('ucCount');
-  if (!el || !countEl) return;
-
-  countEl.textContent = '...';
-
-  try {
-    const isNew = localStorage.getItem(VISITOR_KEY) !== '1';
-    const url = COUNTER_URL + '?action=' + (isNew ? 'hit' : 'get');
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('fetch failed ' + res.status);
-    const data = await res.json();
-    const count = data.count ?? data.value ?? 0;
-    if (isNew) localStorage.setItem(VISITOR_KEY, '1');
-    countEl.textContent = Math.max(count, 1).toLocaleString('en-AU');
-  } catch(e) {
-    countEl.textContent = '1+';
-  }
-}
 
 // ── CSV TEMPLATE & IMPORT ──
 
@@ -4132,11 +4071,6 @@ function dismissScreenToast() {
   <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleCsvImport(this)">
 </div>
 
-<!-- ── USER COUNTER (bottom-left) ── -->
-<div class="user-counter" id="userCounter" title="Unique students who have accessed this tracker">
-  <span class="uc-dot"></span>
-  <span><strong id="ucCount">-</strong> students</span>
-</div>
 
 <!-- ── WATERMARK ── -->
 <div class="watermark">ACTUARIAL TRACKER · RN ©</div>
@@ -4448,7 +4382,7 @@ document.addEventListener('selectstart', function(e) {
             <li>Import any existing spreadsheet tracker: existing companies are matched by name and updated, new ones are added automatically as custom entries, and all other companies are left untouched</li>
             <li>Export this into a spreadsheet for unlimited customisation</li>
             <li>Import summary shows matched, added, and skipped counts with a full per-company breakdown</li>
-            <li>Buttons sit in the bottom-left corner above the user counter</li>
+            <li>Template, Export, and Import buttons sit in the bottom-left corner of the page</li>
           </ul>
         </div>
       </div>
