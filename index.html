@@ -513,6 +513,13 @@
     background-position: right 8px center;
     transition: all 0.15s;
     min-width: 130px;
+    /* Always use surface colour for bg - only border/text changes per status */
+    background-color: var(--surface2);
+  }
+  /* Force dropdown options to always use the theme background */
+  .status-select option {
+    background-color: var(--surface2);
+    color: var(--text);
   }
   .status-select.status-none {
     background-color: var(--surface2);
@@ -520,22 +527,22 @@
     color: var(--text-muted);
   }
   .status-select.status-applied {
-    background-color: var(--status-applied-bg);
+    background-color: var(--surface2);
     border-color: var(--status-applied-border);
     color: var(--status-applied-text);
   }
   .status-select.status-oa {
-    background-color: var(--status-oa-bg);
+    background-color: var(--surface2);
     border-color: var(--status-oa-border);
     color: var(--status-oa-text);
   }
   .status-select.status-interview {
-    background-color: var(--status-interview-bg);
+    background-color: var(--surface2);
     border-color: var(--status-interview-border);
     color: var(--status-interview-text);
   }
   .status-select.status-offer {
-    background-color: var(--status-offer-bg);
+    background-color: var(--surface2);
     border-color: var(--status-offer-border);
     color: var(--status-offer-text);
   }
@@ -792,9 +799,43 @@
     .layout { padding: 16px 16px 40px; }
     .page-title { font-size: 28px; }
     .expanded-content { grid-template-columns: 1fr; }
-    .header-inner { padding: 0; }
+    .header-inner { padding: 0; gap: 8px; }
     .stat-pills { display: none; }
+    .logo-sub { display: none; }
+    .progress-bar-wrap { display: none; }
+    .hero-actions { display: none; }
+    .import-cluster { display: none; }
+    .user-counter { display: none; }
+    .watermark { display: none; }
   }
+
+  @media (max-width: 1100px) {
+    /* Tighten header spacing */
+    .header-inner { gap: 8px; }
+    .stat-pills { gap: 5px; }
+    .stat-pill { padding: 4px 7px; font-size: 10px; }
+    .add-company-btn { padding: 6px 10px; font-size: 10px; }
+    .reset-btn { padding: 6px 10px; font-size: 10px; }
+    .feedback-btn { padding: 6px 8px; font-size: 10px; }
+    .logout-btn { padding: 6px 8px; font-size: 10px; }
+    .logo-sub { display: none; }
+  }
+
+  @media (max-width: 900px) {
+    /* Hide progress bar and some pills to free space */
+    .progress-bar-wrap { display: none; }
+    .stat-pills { display: none; }
+    /* Stack filter buttons */
+    .controls { flex-wrap: wrap; gap: 8px; }
+  }
+
+  @media (max-width: 1280px) {
+    /* Scale down layout padding */
+    .layout { padding: 20px 20px 60px; }
+  }
+
+  /* Lock background scroll when modal open */
+  body.modal-open { overflow: hidden; }
 
   .hidden { display: none !important; }
 
@@ -2921,11 +2962,11 @@ function renderTable(filtered) {
           ${c.custom ? `<span class="custom-badge">custom</span>` : ''}
         </div>
       </td>
-      <td>${datesHtml}</td>
-      <td>${programHtml}</td>
-      <td>${interestHtml}</td>
-      <td>${intakeHtml}</td>
-      <td>${typeHtml}</td>
+      <td onclick="event.stopPropagation()">${datesHtml}</td>
+      <td onclick="event.stopPropagation()">${programHtml}</td>
+      <td onclick="event.stopPropagation()">${interestHtml}</td>
+      <td onclick="event.stopPropagation()">${intakeHtml}</td>
+      <td onclick="event.stopPropagation()">${typeHtml}</td>
       <td onclick="event.stopPropagation()">
         <select class="status-select ${statusClass(c.status)}" data-id="${c.id}" onchange="updateStatus(this)">
           <option value="">– Not Started</option>
@@ -3245,6 +3286,7 @@ function resetAll() {
 }
 
 function openHelp() {
+  document.body.classList.add('modal-open');
   const modal = document.getElementById('helpModal');
   modal.classList.add('open');
   setTimeout(() => {
@@ -3257,9 +3299,11 @@ function closeHelp() {
   document.getElementById('helpModal').classList.remove('open');
   const body = document.querySelector('#helpModal .modal-body');
   if (body) body.scrollTop = 0;
+  if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
 }
 
 function openModal() {
+  document.body.classList.add('modal-open');
   document.getElementById('addModal').classList.add('open');
   document.getElementById('field-company').focus();
   document.getElementById('field-company').classList.remove('error');
@@ -3270,6 +3314,7 @@ function openModal() {
 function closeModal() {
   document.getElementById('addModal').classList.remove('open');
   document.getElementById('addCompanyForm').reset();
+  if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
 }
 
 function submitAddCompany() {
@@ -3341,6 +3386,7 @@ function deleteCustomCompany(id) {
 let selectedFeedbackType = '';
 
 function openFeedback() {
+  document.body.classList.add('modal-open');
   document.getElementById('feedbackModal').classList.add('open');
   document.getElementById('feedbackBody').style.display = '';
   document.getElementById('feedbackSuccess').style.display = 'none';
@@ -3360,6 +3406,7 @@ function openFeedback() {
 
 function closeFeedback() {
   document.getElementById('feedbackModal').classList.remove('open');
+  if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
 }
 
 function selectFeedbackType(btn, type) {
@@ -3644,6 +3691,7 @@ function importFromCSV(csvText) {
 
 function closeImportModal() {
   document.getElementById('importModal').classList.remove('open');
+  if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
 }
 
 // ── SIDEBAR ──
@@ -4461,6 +4509,7 @@ document.addEventListener('selectstart', function(e) {
 <script>
 // ── ABOUT / CHANGELOG ──
 function openAboutMe() {
+  document.body.classList.add('modal-open');
   const modal = document.getElementById('aboutModal');
   modal.classList.add('open');
   setTimeout(() => {
@@ -4472,8 +4521,10 @@ function closeAboutMe() {
   document.getElementById('aboutModal').classList.remove('open');
   const body = document.querySelector('#aboutModal .modal-body');
   if (body) body.scrollTop = 0;
+  if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
 }
 function openChangelog() {
+  document.body.classList.add('modal-open');
   const modal = document.getElementById('changelogModal');
   modal.classList.add('open');
   setTimeout(() => {
@@ -4485,6 +4536,7 @@ function closeChangelog() {
   document.getElementById('changelogModal').classList.remove('open');
   const body = document.querySelector('#changelogModal .modal-body');
   if (body) body.scrollTop = 0;
+  if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
 }
 </script>
 
