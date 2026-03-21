@@ -3525,21 +3525,28 @@ async function loadAndIncrementCounter() {
   const countEl = document.getElementById('ucCount');
   if (!el || !countEl) return;
 
-  // Show loading state immediately: element is always visible
   countEl.textContent = '...';
 
   try {
     const isNew = localStorage.getItem(VISITOR_KEY) !== '1';
     const url = COUNTER_URL + '?action=' + (isNew ? 'hit' : 'get');
-    const res = await fetch(url, { mode: 'cors' });
+
+    // Google Apps Script requires following redirects; no-cors won't parse JSON
+    // so we use a plain fetch with redirect:follow
+    const res = await fetch(url, { redirect: 'follow' });
     if (!res.ok) throw new Error('fetch failed ' + res.status);
-    const data = await res.json();
-    const count = data.count ?? data.value ?? 0;
+    const text = await res.text();
+    // Parse — handle both JSON and plain number responses
+    let count = 0;
+    try {
+      const data = JSON.parse(text);
+      count = data.count ?? data.value ?? 0;
+    } catch(e) {
+      count = parseInt(text) || 0;
+    }
     if (isNew) localStorage.setItem(VISITOR_KEY, '1');
     countEl.textContent = Math.max(count, 1).toLocaleString('en-AU');
   } catch(e) {
-    // API failed: show a non-zero placeholder so the element stays useful
-    // and doesn't look broken
     countEl.textContent = '1+';
   }
 }
