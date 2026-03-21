@@ -3448,8 +3448,6 @@ function submitFeedback() {
   const details = document.getElementById('feedbackDetails').value.trim();
   const company = document.getElementById('feedbackCompany').value.trim();
   const errEl   = document.getElementById('feedbackError');
-  // Get email from login session
-  const email = localStorage.getItem(PERSIST_EMAIL_KEY) || sessionStorage.getItem('mq_session_email') || 'unknown';
 
   errEl.style.display = 'none';
   if (!details) {
@@ -3461,7 +3459,6 @@ function submitFeedback() {
   const type = selectedFeedbackType || 'General Feedback';
   const body = JSON.stringify({
     _subject: `Actuarial Tracker Feedback -- ${type}`,
-    email,
     type,
     company: company || '--',
     details,
@@ -4086,22 +4083,6 @@ const FORMSPREE_URL = 'https://formspree.io/f/xpqynpyk';
 const SESSION_KEY = 'mq_authed';
 const TERMS_KEY   = 'mq_terms_accepted';
 
-function sendEntryNotification() {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 4000);
-  fetch(FORMSPREE_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({
-      _subject: 'Actuarial Tracker: New Entry',
-      message: 'Someone entered the Actuarial Tracker for the first time from this browser.\n\nTime: ' +
-        new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' }) +
-        '\nUser Agent: ' + navigator.userAgent
-    }),
-    signal: controller.signal
-  }).catch(() => {}).finally(() => clearTimeout(timeout));
-}
-
 function unlockTracker() {
   const overlay = document.getElementById('loginOverlay');
   document.body.classList.remove('modal-open');
@@ -4171,12 +4152,6 @@ function attemptLogin() {
 
   localStorage.setItem(TERMS_KEY, '1');
   sessionStorage.setItem(SESSION_KEY, '1');
-
-  if (!localStorage.getItem('mq_notified')) {
-    sendEntryNotification();
-    localStorage.setItem('mq_notified', '1');
-  }
-
   unlockTracker();
 }
 
