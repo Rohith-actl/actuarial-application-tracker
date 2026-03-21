@@ -305,14 +305,15 @@
   .table-wrap {
     border-radius: 14px;
     border: 1px solid var(--border);
-    overflow: hidden;
-    overflow-x: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 200px);
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto;
+    table-layout: fixed;
   }
 
   thead {
@@ -331,11 +332,117 @@
     cursor: pointer;
     user-select: none;
     transition: color 0.15s;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border2);
   }
   th:hover { color: var(--text-muted); }
   th.sorted { color: var(--accent); }
-  th .sort-icon { margin-left: 4px; opacity: 0.5; font-size: 9px; }
+  th .sort-icon {
+    margin-left: 0;
+    letter-spacing: 0;
+    opacity: 0.35;
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 1;
+    position: relative;
+    top: -1px;
+  }
+  th .sort-icon svg { display: block; }
+  /* Default: both arrows same dim opacity */
+  th .sort-icon .sort-up   { opacity: 0.7; }
+  th .sort-icon .sort-down { opacity: 0.7; }
+  /* Sorted: icon fully visible */
   th.sorted .sort-icon { opacity: 1; }
+  /* Ascending: up bright, down dim */
+  th.sorted.asc .sort-icon .sort-up   { opacity: 1; fill: var(--accent); }
+  th.sorted.asc .sort-icon .sort-down { opacity: 0.2; fill: currentColor; }
+  /* Descending: down bright, up dim */
+  th.sorted.desc .sort-icon .sort-up   { opacity: 0.2; fill: currentColor; }
+  th.sorted.desc .sort-icon .sort-down { opacity: 1; fill: var(--accent); }
+
+  /* Column resize handle - subtle always-visible divider */
+  .col-resize-handle {
+    position: absolute;
+    right: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 3px;
+    cursor: col-resize;
+    background: var(--border2);
+    border-radius: 2px;
+    opacity: 0.5;
+    transition: opacity 0.15s, background 0.15s, top 0.15s, bottom 0.15s;
+    z-index: 2;
+  }
+  .col-resize-handle:hover {
+    background: var(--accent);
+    opacity: 0.8;
+    top: 10%;
+    bottom: 10%;
+  }
+  .col-resize-handle.dragging {
+    background: var(--accent);
+    opacity: 1;
+    top: 0;
+    bottom: 0;
+  }
+  /* Collapsed column indicator */
+  col.collapsed { width: 6px !important; }
+  th.col-collapsed {
+    padding: 12px 2px;
+    overflow: hidden;
+    min-width: 0;
+  }
+  th.col-collapsed > *:not(.col-resize-handle) { display: none; }
+  td.col-collapsed {
+    padding: 0 !important;
+    overflow: hidden;
+    max-width: 6px;
+  }
+  td.col-collapsed > * { display: none; }
+
+  /* Column resize hint - floating one-time tip */
+  .col-resize-hint {
+    position: fixed;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    letter-spacing: 0.3px;
+  }
+  .col-resize-hint.visible { opacity: 1; }
+
+  /* Reset columns button */
+  .reset-cols-btn {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .reset-cols-btn.visible { display: flex; }
+  .reset-cols-btn:hover { border-color: var(--border2); color: var(--text-muted); }
 
   /* Sector header row */
   .sector-row td {
@@ -363,6 +470,10 @@
     vertical-align: middle;
     font-size: 13px;
     color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 0;
   }
 
   /* Company name */
@@ -557,6 +668,12 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    white-space: normal;
+  }
+  /* Override truncation for notes td */
+  td:has(.notes-text) {
+    white-space: normal;
+    overflow: visible;
   }
 
   /* ── EXPANDED ROW ── */
@@ -1950,9 +2067,14 @@
   /* ── HERO ACTION BUTTONS ── */
   .hero-actions {
     display: flex;
-    gap: 12px;
-    align-items: center;
+    gap: 16px;
+    align-items: flex-end;
     flex-shrink: 0;
+  }
+  .hero-action-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   .hero-action-btn {
     display: flex;
@@ -1966,13 +2088,14 @@
     transition: all 0.15s;
     text-align: left;
     min-width: 148px;
+    width: 100%;
   }
   .hero-action-btn:hover {
     border-color: var(--border2);
     background: var(--surface2);
     transform: translateY(-1px);
   }
-  .hero-action-btn .ha-icon { font-size: 22px; flex-shrink: 0; }
+  .hero-action-btn .ha-icon { font-size: 18px; flex-shrink: 0; }
   .hero-action-btn .ha-text {
     display: flex;
     flex-direction: column;
@@ -1992,7 +2115,34 @@
     letter-spacing: 0.3px;
   }
 
-  /* ── ABOUT / CHANGELOG MODALS ── */
+  /* ── SUB-BANNER ── */
+  .sub-banner {
+    position: sticky;
+    top: 58px;
+    z-index: 99;
+    background: var(--header-bg);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
+  }
+  .sub-banner-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 46px;
+    flex-wrap: wrap;
+  }
+  .sub-banner-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  /* Adjust th sticky top to sit below header + sub-banner */
   .about-modal { max-width: 540px; }
   .changelog-modal { max-width: 580px; }
 
@@ -2168,42 +2318,47 @@
       </span>
       <span class="logo-sub">Australia · Rohith Narayanan</span>
     </a>
-    <div class="header-divider"></div>
+  </div>
+</header>
+
+<!-- ── SUB-BANNER ── -->
+<div class="sub-banner">
+  <div class="sub-banner-inner">
     <div class="stat-pills" id="statPills">
       <div class="stat-pill applied"><span class="dot"></span><span id="pill-applied">0</span> Applied</div>
       <div class="stat-pill oa"><span class="dot"></span><span id="pill-oa">0</span> OA</div>
       <div class="stat-pill interview"><span class="dot"></span><span id="pill-interview">0</span> Interview</div>
       <div class="stat-pill offer"><span class="dot"></span><span id="pill-offer">0</span> Offer</div>
     </div>
-    <div class="header-right">
-      <div class="progress-bar-wrap">
-        <span id="progressLabel">0 applied</span>
-        <div class="progress-track">
-          <div class="progress-fill" id="progressFill" style="width:0%"></div>
-        </div>
-        <span id="totalCount">/ 0</span>
+    <div class="sub-banner-divider"></div>
+    <div class="progress-bar-wrap">
+      <span id="progressLabel">0 applied</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
       </div>
-      <div class="view-toggle">
-        <button class="view-btn active" id="btnTable" onclick="setView('table')">☰</button>
-        <button class="view-btn" id="btnCards" onclick="setView('cards')">⊞</button>
-      </div>
-      <button class="add-company-btn" onclick="openModal()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Add Company
-      </button>
-      <button class="reset-btn" onclick="resetAll()" title="Reset all changes to defaults">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
-        Reset All
-      </button>
-      <button class="feedback-btn" onclick="openFeedback()" title="Send feedback or suggest a correction">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        Feedback
-      </button>
-      <button class="help-btn" onclick="openHelp()" title="How to use this tracker">?</button>
-      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
+      <span id="totalCount">/ 0</span>
     </div>
+    <div class="sub-banner-divider"></div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnTable" onclick="setView('table')">☰</button>
+      <button class="view-btn" id="btnCards" onclick="setView('cards')">⊞</button>
+    </div>
+    <button class="add-company-btn" onclick="openModal()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Company
+    </button>
+    <button class="reset-btn" onclick="resetAll()" title="Reset all changes to defaults">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+      Reset All
+    </button>
+    <button class="feedback-btn" onclick="openFeedback()" title="Send feedback or suggest a correction">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Feedback
+    </button>
+    <button class="help-btn" onclick="openHelp()" title="How to use this tracker">?</button>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
   </div>
-</header>
+</div>
 
 <!-- ── CAREER PLAYBOOK SIDEBAR ── -->
 <aside class="sidebar" id="playbook">
@@ -2486,20 +2641,37 @@
       <p class="page-subtitle">Australia · Actuarial Students</p>
     </div>
     <div class="hero-actions">
-      <button class="hero-action-btn" onclick="openAboutMe()">
-        <span class="ha-icon">👤</span>
-        <span class="ha-text">
-          <span class="ha-title">About</span>
-          <span class="ha-sub">Who made this</span>
-        </span>
-      </button>
-      <button class="hero-action-btn" onclick="openChangelog()">
-        <span class="ha-icon">🆕</span>
-        <span class="ha-text">
-          <span class="ha-title">What's New</span>
-          <span class="ha-sub">Recent features</span>
-        </span>
-      </button>
+      <div class="hero-action-group" style="flex-direction:row;align-self:flex-end;">
+        <button class="hero-action-btn" onclick="openAboutMe()">
+          <span class="ha-icon">👤</span>
+          <span class="ha-text">
+            <span class="ha-title">About</span>
+            <span class="ha-sub">Who made this</span>
+          </span>
+        </button>
+        <button class="hero-action-btn" onclick="openChangelog()">
+          <span class="ha-icon">🆕</span>
+          <span class="ha-text">
+            <span class="ha-title">What's New</span>
+            <span class="ha-sub">Recent features</span>
+          </span>
+        </button>
+      </div>
+      <div class="hero-action-group" style="align-self:flex-end;">
+        <button class="import-btn" onclick="downloadTemplate()" title="Download blank CSV template">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Template
+        </button>
+        <button class="import-btn" onclick="exportCSV()" title="Export tracker as CSV">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+        <button class="import-btn" onclick="document.getElementById('csvFileInput').click()" title="Import from CSV">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import CSV
+        </button>
+        <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleCsvImport(this)">
+      </div>
     </div>
   </div>
 
@@ -2554,6 +2726,10 @@
     <span id="sortLabel" style="display:flex;align-items:center;gap:8px;">
       <span id="sortLabelText">Sorted by sector</span>
       <button id="unsortBtn" onclick="clearSort()" style="display:none;padding:3px 10px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text-muted);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.15s;">✕ clear sort</button>
+      <button id="resetColsBtn" class="reset-cols-btn" onclick="resetColumnWidths()" title="Reset column widths to default">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+        Reset columns
+      </button>
     </span>
     <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);">
       Found an error? <button onclick="openFeedback()" style="background:none;border:none;color:var(--accent);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;padding:0;text-decoration:underline;">Suggest an edit</button>
@@ -2563,17 +2739,29 @@
   <!-- TABLE VIEW -->
   <div id="tableView">
     <div class="table-wrap">
-      <table>
+      <table id="mainTable">
+        <colgroup>
+          <col id="col-company" style="width:180px">
+          <col id="col-dates" style="width:140px">
+          <col id="col-program" style="width:160px">
+          <col id="col-interest" style="width:130px">
+          <col id="col-intake" style="width:80px">
+          <col id="col-type" style="width:110px">
+          <col id="col-status" style="width:160px">
+          <col id="col-dateapplied" style="width:110px">
+          <col id="col-notes" style="width:220px">
+        </colgroup>
         <thead>
           <tr>
-            <th onclick="sortBy('company')">Company <span class="sort-icon">↕</span></th>
-            <th onclick="sortBy('dates')">Dates <span class="sort-icon">↕</span></th>
-            <th onclick="sortBy('program')">Programme Type <span class="sort-icon">↕</span></th>
-            <th onclick="sortBy('interest')">Student Interest <span class="sort-icon">↕</span></th>
-            <th onclick="sortBy('intake')" style="cursor:pointer;" onmouseover="this.style.color='var(--text-muted)'" onmouseout="this.style.color=''">Intake <span class="sort-icon">↕</span></th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Notes</th>
+            <th onclick="sortBy('company')">Company<span class="sort-icon"><svg width="8" height="11" viewBox="0 0 8 11" fill="currentColor"><polygon class="sort-up" points="4,0 7.5,4.5 0.5,4.5"/><polygon class="sort-down" points="4,11 7.5,6.5 0.5,6.5"/></svg></span><span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-company"></span></th>
+            <th onclick="sortBy('dates')">Application Period<span class="sort-icon"><svg width="8" height="11" viewBox="0 0 8 11" fill="currentColor"><polygon class="sort-up" points="4,0 7.5,4.5 0.5,4.5"/><polygon class="sort-down" points="4,11 7.5,6.5 0.5,6.5"/></svg></span><span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-dates"></span></th>
+            <th onclick="sortBy('program')">Programme Type<span class="sort-icon"><svg width="8" height="11" viewBox="0 0 8 11" fill="currentColor"><polygon class="sort-up" points="4,0 7.5,4.5 0.5,4.5"/><polygon class="sort-down" points="4,11 7.5,6.5 0.5,6.5"/></svg></span><span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-program"></span></th>
+            <th onclick="sortBy('interest')">Student Interest<span class="sort-icon"><svg width="8" height="11" viewBox="0 0 8 11" fill="currentColor"><polygon class="sort-up" points="4,0 7.5,4.5 0.5,4.5"/><polygon class="sort-down" points="4,11 7.5,6.5 0.5,6.5"/></svg></span><span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-interest"></span></th>
+            <th onclick="sortBy('intake')">Intake<span class="sort-icon"><svg width="8" height="11" viewBox="0 0 8 11" fill="currentColor"><polygon class="sort-up" points="4,0 7.5,4.5 0.5,4.5"/><polygon class="sort-down" points="4,11 7.5,6.5 0.5,6.5"/></svg></span><span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-intake"></span></th>
+            <th>Type<span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-type"></span></th>
+            <th>Status<span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-status"></span></th>
+            <th>Date Applied<span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-dateapplied"></span></th>
+            <th>Notes<span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-notes"></span></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -2701,6 +2889,8 @@ let currentSector = 'all';
 let currentView = 'table';
 let expandedRow = null;
 
+const DATE_APPLIED_KEY = 'mq_date_applied';
+
 // Load statuses from localStorage
 function loadStatuses() {
   try {
@@ -2710,6 +2900,13 @@ function loadStatuses() {
       data.forEach(c => { if (statuses[c.id] !== undefined) c.status = statuses[c.id]; });
     }
   } catch(e) {}
+  try {
+    const savedDates = localStorage.getItem(DATE_APPLIED_KEY);
+    if (savedDates) {
+      const dates = JSON.parse(savedDates);
+      data.forEach(c => { c.dateApplied = dates[c.id] || ''; });
+    }
+  } catch(e) {}
 }
 
 function saveStatuses() {
@@ -2717,6 +2914,14 @@ function saveStatuses() {
     const statuses = {};
     data.forEach(c => { statuses[c.id] = c.status; });
     localStorage.setItem('mq_actuarial_statuses', JSON.stringify(statuses));
+  } catch(e) {}
+}
+
+function saveDateApplied() {
+  try {
+    const dates = {};
+    data.forEach(c => { if (c.dateApplied) dates[c.id] = c.dateApplied; });
+    localStorage.setItem(DATE_APPLIED_KEY, JSON.stringify(dates));
   } catch(e) {}
 }
 
@@ -2842,9 +3047,29 @@ function sortBy(field) {
     sortField = field;
     sortDir = 1;
   }
-  document.querySelectorAll('th').forEach(th => th.classList.remove('sorted'));
+  const allThs = document.querySelectorAll('#mainTable thead th');
+  // Reset all polygon styles
+  allThs.forEach(th => {
+    th.classList.remove('sorted', 'asc', 'desc');
+    const up   = th.querySelector('.sort-up');
+    const down = th.querySelector('.sort-down');
+    if (up)   { up.style.opacity = '0.7';    up.style.fill = 'currentColor'; }
+    if (down) { down.style.opacity = '0.7';  down.style.fill = 'currentColor'; }
+  });
   const thMap = {company:0, dates:1, program:2, interest:3, intake:4};
-  document.querySelectorAll('th')[thMap[field]]?.classList.add('sorted');
+  const sortedTh = allThs[thMap[field]];
+  if (sortedTh) {
+    sortedTh.classList.add('sorted', sortDir === 1 ? 'asc' : 'desc');
+    const up   = sortedTh.querySelector('.sort-up');
+    const down = sortedTh.querySelector('.sort-down');
+    if (sortDir === 1) {
+      if (up)   { up.style.opacity = '1';    up.style.fill = 'var(--accent)'; }
+      if (down) { down.style.opacity = '0.2'; down.style.fill = 'currentColor'; }
+    } else {
+      if (up)   { up.style.opacity = '0.2';  up.style.fill = 'currentColor'; }
+      if (down) { down.style.opacity = '1';  down.style.fill = 'var(--accent)'; }
+    }
+  }
   const fieldLabels = { company: 'company', dates: 'dates', program: 'programme type', interest: 'student interest', intake: 'intake' };
   document.getElementById('unsortBtn').style.display = 'inline-block';
   document.getElementById('sortLabelText').textContent = 'Sorted by ' + (fieldLabels[field] || field);
@@ -2854,7 +3079,13 @@ function sortBy(field) {
 function clearSort() {
   sortField = null;
   sortDir = 1;
-  document.querySelectorAll('th').forEach(th => th.classList.remove('sorted'));
+  document.querySelectorAll('#mainTable thead th').forEach(th => {
+    th.classList.remove('sorted', 'asc', 'desc');
+    const up   = th.querySelector('.sort-up');
+    const down = th.querySelector('.sort-down');
+    if (up)   { up.style.opacity = '0.7';   up.style.fill = 'currentColor'; }
+    if (down) { down.style.opacity = '0.7'; down.style.fill = 'currentColor'; }
+  });
   document.getElementById('unsortBtn').style.display = 'none';
   document.getElementById('sortLabelText').textContent = 'Sorted by sector';
   applyFilters();
@@ -2872,7 +3103,7 @@ function setView(v) {
 function applyFilters() {
   let filtered = getFiltered();
 
-  const interestOrder = { 'Very High':0, 'High':1, 'Medium':2, 'Low–Med':3, 'Low':4 };
+  const interestOrder = { 'Very High':4, 'High':3, 'Medium':2, 'Low–Med':1, 'Low':0 };
   const intakeOrder   = { 'Small':1, 'Medium':2, 'Large':3 };
 
   if (sortField) {
@@ -2917,7 +3148,7 @@ function renderTable(filtered) {
       lastSector = c.sector;
       const sr = document.createElement('tr');
       sr.className = 'sector-row';
-      sr.innerHTML = `<td colspan="8">${c.sector}</td>`;
+      sr.innerHTML = `<td colspan="9">${c.sector}</td>`;
       tbody.appendChild(sr);
     }
 
@@ -2994,11 +3225,14 @@ function renderTable(filtered) {
           <option value="Offer" ${c.status==='Offer'?'selected':''}>Offer</option>
         </select>
       </td>
+      <td onclick="event.stopPropagation()" class="date-applied-cell" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);white-space:nowrap;">${c.dateApplied || '-'}</td>
       <td><div class="notes-text">${c.notes || ''}</div></td>
     `;
     tr.addEventListener('click', () => toggleExpand(tr, c));
     tbody.appendChild(tr);
   });
+  // Re-init column resize handles after each render
+  if (window._reinitResizeHandles) window._reinitResizeHandles();
 }
 
 // ── INLINE EDIT HANDLERS ──
@@ -3232,8 +3466,26 @@ function updateStatus(sel) {
   const id = parseInt(sel.dataset.id);
   const company = data.find(c => c.id === id);
   if (company) {
-    company.status = sel.value;
+    const newStatus = sel.value;
+    company.status = newStatus;
     sel.className = `status-select ${statusClass(sel.value)}`;
+    // Date Applied logic
+    if (newStatus === 'Applied' && !company.dateApplied) {
+      // Set date only when first moved to Applied
+      const today = new Date();
+      company.dateApplied = today.toLocaleDateString('en-AU', { day:'2-digit', month:'2-digit', year:'numeric' });
+    } else if (newStatus === '') {
+      // Reset to Not Started - clear date
+      company.dateApplied = '';
+    }
+    // For OA / Interview / Offer - keep existing dateApplied unchanged
+    saveDateApplied();
+    // Update the date cell in the row without full re-render
+    const row = sel.closest('tr');
+    if (row) {
+      const dateCell = row.querySelector('.date-applied-cell');
+      if (dateCell) dateCell.textContent = company.dateApplied || '-';
+    }
     saveStatuses();
     updateStats();
   }
@@ -3286,6 +3538,7 @@ function resetAll() {
     localStorage.removeItem('mq_actuarial_statuses');
     localStorage.removeItem(CUSTOM_KEY);
     localStorage.removeItem(EDITS_KEY);
+    localStorage.removeItem(DATE_APPLIED_KEY);
   } catch(e) {}
   // Rebuild data from scratch
   data = COMPANIES.map((c,i) => ({...c, id: i}));
@@ -3297,7 +3550,7 @@ function resetAll() {
   document.getElementById('interestFilter').value = 'all';
   document.getElementById('typeFilter').value = 'all';
   document.querySelectorAll('#sectorFilters .filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
-  document.querySelectorAll('th').forEach(th => th.classList.remove('sorted'));
+  document.querySelectorAll('#mainTable thead th').forEach(th => th.classList.remove('sorted', 'asc', 'desc'));
   document.getElementById('unsortBtn').style.display = 'none';
   document.getElementById('sortLabelText').textContent = 'Sorted by sector';
   applyFilters();
@@ -3752,6 +4005,149 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+// ── COLUMN RESIZE & COLLAPSE ──
+const DEFAULT_COL_WIDTHS = {
+  'col-company': '180px', 'col-dates': '140px', 'col-program': '160px',
+  'col-interest': '130px', 'col-intake': '80px', 'col-type': '110px',
+  'col-status': '160px', 'col-dateapplied': '110px', 'col-notes': '220px'
+};
+const collapsedCols = new Set();
+
+(function() {
+  let dragging = false;
+  let didDrag = false;
+  let startX = 0;
+  let startWidth = 0;
+  let activeCol = null;
+  let activeHandle = null;
+
+  const HINT_KEY = 'mq_col_hint_seen';
+
+  function initResizeHandles() {
+    document.querySelectorAll('.col-resize-handle').forEach(handle => {
+      if (handle._resizeInit) return;
+      handle._resizeInit = true;
+      handle.addEventListener('mousedown', onMouseDown);
+      // Show floating hint on first ever hover
+      handle.addEventListener('mouseenter', onHandleEnter);
+      handle.addEventListener('mousemove', onHandleMove);
+      handle.addEventListener('mouseleave', onHandleLeave);
+    });
+  }
+
+  function onHandleEnter(e) {
+    const hint = document.getElementById('colResizeHint');
+    if (!hint) return;
+    hint.classList.add('visible');
+    positionHint(hint, e);
+  }
+  function onHandleMove(e) {
+    const hint = document.getElementById('colResizeHint');
+    if (hint) positionHint(hint, e);
+  }
+  function onHandleLeave() {
+    const hint = document.getElementById('colResizeHint');
+    if (hint) hint.classList.remove('visible');
+  }
+  function positionHint(hint, e) {
+    hint.style.left = (e.clientX + 14) + 'px';
+    hint.style.top  = (e.clientY - 28) + 'px';
+  }
+
+  function onMouseDown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const colId = e.target.dataset.col;
+    activeCol = document.getElementById(colId);
+    if (!activeCol) return;
+    activeHandle = e.target;
+    startX = e.clientX;
+    startWidth = activeCol.offsetWidth;
+    dragging = true;
+    didDrag = false;
+    activeHandle.classList.add('dragging');
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }
+
+  function onMouseMove(e) {
+    if (!dragging || !activeCol) return;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 3) didDrag = true;
+    const newWidth = Math.max(60, startWidth + dx);
+    activeCol.style.width = newWidth + 'px';
+  }
+
+  function onMouseUp(e) {
+    dragging = false;
+    if (activeHandle) activeHandle.classList.remove('dragging');
+
+    if (!didDrag && activeCol) {
+      // It was a click, not a drag - toggle collapse
+      const colId = activeCol.id;
+      const thIndex = Object.keys(DEFAULT_COL_WIDTHS).indexOf(colId);
+      const th = document.querySelectorAll('#mainTable thead th')[thIndex];
+      const allTds = document.querySelectorAll(`#tableBody tr td:nth-child(${thIndex + 1})`);
+
+      if (collapsedCols.has(colId)) {
+        // Restore
+        collapsedCols.delete(colId);
+        activeCol.style.width = DEFAULT_COL_WIDTHS[colId];
+        if (th) th.classList.remove('col-collapsed');
+        allTds.forEach(td => td.classList.remove('col-collapsed'));
+      } else {
+        // Collapse
+        collapsedCols.add(colId);
+        activeCol.style.width = '6px';
+        if (th) th.classList.add('col-collapsed');
+        allTds.forEach(td => td.classList.add('col-collapsed'));
+      }
+      checkResized();
+    } else {
+      checkResized();
+    }
+
+    activeCol = null;
+    activeHandle = null;
+    didDrag = false;
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+
+  function checkResized() {
+    let resized = collapsedCols.size > 0;
+    if (!resized) {
+      Object.entries(DEFAULT_COL_WIDTHS).forEach(([id, def]) => {
+        const el = document.getElementById(id);
+        if (el && el.style.width && el.style.width !== def) resized = true;
+      });
+    }
+    const btn = document.getElementById('resetColsBtn');
+    if (btn) btn.classList.toggle('visible', resized);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(initResizeHandles, 300);
+  });
+
+  window._reinitResizeHandles = initResizeHandles;
+  window._checkColsResized = checkResized;
+})();
+
+function resetColumnWidths() {
+  Object.entries(DEFAULT_COL_WIDTHS).forEach(([id, w]) => {
+    const el = document.getElementById(id);
+    if (el) el.style.width = w;
+    const thIndex = Object.keys(DEFAULT_COL_WIDTHS).indexOf(id);
+    const th = document.querySelectorAll('#mainTable thead th')[thIndex];
+    if (th) th.classList.remove('col-collapsed');
+    document.querySelectorAll(`#tableBody tr td:nth-child(${thIndex + 1})`).forEach(td => td.classList.remove('col-collapsed'));
+  });
+  collapsedCols.clear();
+  const btn = document.getElementById('resetColsBtn');
+  if (btn) btn.classList.remove('visible');
+}
+
 function dismissScreenToast() {
   const toast = document.getElementById('screenToast');
   if (!toast) return;
@@ -4000,6 +4396,10 @@ function dismissScreenToast() {
           <div class="help-term">Column sorting</div>
           <div class="help-desc">Click any column header (Company, Dates, Programme Type, Student Interest, Intake) to sort the table. Click again to reverse the order. Use <strong>"✕ clear sort"</strong> to return to the default sector grouping.</div>
         </div>
+        <div class="help-row">
+          <div class="help-term">Resize &amp; collapse<br>columns</div>
+          <div class="help-desc">Hover over the border between any two column headers to see the resize handle. <strong>Drag</strong> it left or right to resize the column. <strong>Click</strong> it to collapse the column down to a thin line, useful for hiding columns you don't need (e.g. Notes or Type). Click the same line again to restore it. Use <strong>"Reset columns"</strong> in the results bar to restore all column widths to their defaults.</div>
+        </div>
       </div>
 
       <!-- HEADER BAR -->
@@ -4041,26 +4441,13 @@ function dismissScreenToast() {
   </div>
 </div>
 
-<!-- ── IMPORT CLUSTER (bottom-left) ── -->
-<div class="import-cluster">
-  <button class="import-btn" onclick="downloadTemplate()" title="Download blank CSV template">
-    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Template
-  </button>
-  <button class="import-btn" onclick="exportCSV()" title="Export your current tracker data as CSV">
-    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Export CSV
-  </button>
-  <button class="import-btn" onclick="document.getElementById('csvFileInput').click()" title="Import from CSV">
-    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-    Import CSV
-  </button>
-  <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleCsvImport(this)">
-</div>
 
 
 <!-- ── WATERMARK ── -->
 <div class="watermark">ACTUARIAL TRACKER · RN ©</div>
+
+<!-- ── COLUMN RESIZE HINT ── -->
+<div class="col-resize-hint" id="colResizeHint">Drag to resize · Click to collapse</div>
 
 <!-- ── LOGIN SCRIPT ── -->
 <script>
@@ -4337,31 +4724,32 @@ document.addEventListener('selectstart', function(e) {
 
       <div class="changelog-entry">
         <div class="cl-header">
-          <span class="cl-icon">📥</span>
-          <span class="cl-title">CSV Import &amp; Template Export</span>
+          <span class="cl-icon">📅</span>
+          <span class="cl-title">Date Applied Tracking</span>
           <span class="cl-tag new">New</span>
         </div>
         <div class="cl-desc">
           <ul>
-            <li>Download a pre-formatted CSV template with all 11 columns labelled and two example rows so you know exactly what format to use</li>
-            <li>Import any existing spreadsheet tracker: existing companies are matched by name and updated, new ones are added automatically as custom entries, and all other companies are left untouched</li>
-            <li>Export this into a spreadsheet for unlimited customisation</li>
-            <li>Import summary shows matched, added, and skipped counts with a full per-company breakdown</li>
-            <li>Template, Export, and Import buttons sit in the bottom-left corner of the page</li>
+            <li>A new Date Applied column automatically stamps the date when you set a company's status to "Applied"</li>
+            <li>The date is set once and does not change if you later move to OA, Interview, or Offer</li>
+            <li>Resetting a company back to "Not Started" clears the date back to "-"</li>
+            <li>Dates are saved to your browser and persist across sessions alongside your other tracking data</li>
           </ul>
         </div>
       </div>
 
       <div class="changelog-entry">
         <div class="cl-header">
-          <span class="cl-icon">👤</span>
-          <span class="cl-title">About Me &amp; What's New</span>
+          <span class="cl-icon">📥</span>
+          <span class="cl-title">CSV Import, Export &amp; Template</span>
           <span class="cl-tag new">New</span>
         </div>
         <div class="cl-desc">
           <ul>
-            <li>About Me panel with creator profile, and the story behind the tracker</li>
-            <li>What's New panel (this screen) showing the 5 most recent major additions in detail, updated with every release</li>
+            <li>Download a pre-formatted CSV template with all columns labelled and example rows so you know exactly what format to use</li>
+            <li>Import any existing spreadsheet tracker: existing companies are matched by name and updated, new ones are added automatically as custom entries, and all other companies are left untouched</li>
+            <li>Export your full tracker to a spreadsheet for unlimited customisation</li>
+            <li>Import summary shows matched, added, and skipped counts with a full per-company breakdown</li>
           </ul>
         </div>
       </div>
