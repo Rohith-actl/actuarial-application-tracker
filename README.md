@@ -6,7 +6,7 @@
 
 ## What is this?
 
-Breaking into the actuarial profession is competitive. With 90+ companies across every major sector — general insurance, life, health, superannuation, banking, consulting, reinsurance, investments, and government — knowing where to apply, when, and how to stand out is genuinely hard.
+Breaking into the actuarial profession is competitive. With 90+ companies across every major sector - general insurance, life, health, superannuation, banking, consulting, reinsurance, investments, and government - knowing where to apply, when, and how to stand out is genuinely hard.
 
 This tracker was built to solve that. It's a single, beautifully designed web app that gives you everything in one place: curated company data, application tracking, career advice from professionals, and a clean interface you'll actually want to use.
 
@@ -26,6 +26,7 @@ Every major actuarial employer in Australia, organised by sector. Each entry inc
 - Pre-penultimate programme badges
 - Direct link to the careers page
 - Curated notes on the programme, culture, and what to expect
+- And new features are periodically released 
 
 ### ✅ Personal Application Tracker
 Track every company through your pipeline with a single click:
@@ -40,7 +41,7 @@ Think a date is wrong? Update it yourself. Every field — dates, intake, progra
 - Filter by sector (General, Life, Health, Super, Banking, Consulting, Re, Investment, Data, Government)
 - Filter by status, student interest, grad/intern/pre-penu
 - Search across company names, programme types, and notes simultaneously
-- Sort by any column including intake size
+- Sort by any column
 - Click any column header to sort; clear sort to return to sector grouping
 
 ### 📖 Actuarial Career Playbook
@@ -50,7 +51,7 @@ A built-in sidebar with condensed, high-signal career advice based on real indus
 - **Interview** — STAR method, the 3 signals you must show, how to be in the top 5%, questions you should ask
 
 ### ➕ Add Your Own Companies
-Found a company not on the list? Add it in seconds. Custom companies get full functionality — filtering, searching, status tracking, sorting — identical to built-in ones.
+Found a company not on the list? Add it in seconds. Custom companies get full functionality - filtering, searching, status tracking, sorting - identical to built-in ones.
 
 ### 🌙 Light & Dark Mode
 Fully designed for both. Preference saves automatically.
@@ -79,15 +80,14 @@ Password-protected with Terms & Conditions. First-time logins are logged so the 
 
 ## How to Access
 
-This tracker is shared privately with a select group of Australian actuarial students. If you've been given access, you'll have a link and a password.
-
-If you'd like access, reach out.
+This tracker is shared with Australian actuarial students.
+If you'd like access, please use the file.
 
 ---
 
 ## Keeping It Updated
 
-The tracker is maintained regularly. If you spot outdated information — wrong dates, changed programme types, companies that have opened or closed applications — use the **Feedback** button inside the tracker to suggest a correction. Every submission goes directly to the creator.
+The tracker is maintained regularly. If you spot outdated information such as wrong dates, changed programme types, companies that have opened or closed applications, use the **Feedback** button inside the tracker to suggest a correction. Every submission goes directly to the creator.
 
 ---
 
