@@ -2531,21 +2531,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    width: calc(100% - 40px);
-    margin: 0 20px 16px;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(239,68,68,0.35);
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid rgba(239,68,68,0.4);
     background: transparent;
     color: #f87171;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     transition: all 0.15s;
   }
-  .m-sheet-delete-btn:active { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.6); }
+  .m-sheet-delete-btn:active { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.7); }
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -5920,16 +5917,18 @@ function closeChangelog() {
       <button class="m-sheet-close-btn" onclick="document.getElementById('mSheet').classList.remove('open'); mCurrentId = null;">✕ Close</button>
     </div>
     <div class="m-sheet-header" style="padding-top:0;">
-      <div class="m-sheet-company" id="mSheetName"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <div class="m-sheet-company" id="mSheetName" style="flex:1;"></div>
+        <button class="m-sheet-delete-btn" onclick="mDeleteCompany()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>
+      </div>
     </div>
     <div class="m-sheet-body" id="mSheetBody"></div>
     <div class="m-status-select-wrap">
       <div class="m-status-label">Application Status</div>
       <div class="m-status-options" id="mStatusOptions"></div>
     </div>
-    <button class="m-sheet-delete-btn" onclick="mDeleteCompany()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-    </button>
   </div>
 </div>
 
@@ -5966,15 +5965,33 @@ function mMenuAction(fn) {
 function mDeleteCompany() {
   if (!mCurrentId) return;
   const idToDelete = mCurrentId;
-  // deleteCompany already shows a confirm dialog
-  deleteCompany(idToDelete);
-  // Only close sheet and re-render if company was actually removed
-  if (!data.find(x => x.id === idToDelete)) {
-    document.getElementById('mSheet').classList.remove('open');
-    mCurrentId = null;
-    mRender();
-    mUpdatePipeline();
+  const c = data.find(x => x.id === idToDelete);
+  if (!c) return;
+  if (!confirm('Remove this company from the tracker?\n\nYou can restore it using Reset All.')) return;
+  // Remove from data
+  data = data.filter(x => x.id !== idToDelete);
+  // Persist
+  if (c.custom) {
+    saveCustomCompanies();
+  } else {
+    saveHiddenCompany(idToDelete);
   }
+  // Clean up status and date
+  try {
+    const statuses = JSON.parse(localStorage.getItem('mq_actuarial_statuses') || '{}');
+    delete statuses[idToDelete];
+    localStorage.setItem('mq_actuarial_statuses', JSON.stringify(statuses));
+  } catch(e) {}
+  try {
+    const dates = JSON.parse(localStorage.getItem(DATE_APPLIED_KEY) || '{}');
+    delete dates[idToDelete];
+    localStorage.setItem(DATE_APPLIED_KEY, JSON.stringify(dates));
+  } catch(e) {}
+  // Close sheet and re-render mobile
+  document.getElementById('mSheet').classList.remove('open');
+  mCurrentId = null;
+  mRender();
+  mUpdatePipeline();
 }
 
 function mIsMobile() {
