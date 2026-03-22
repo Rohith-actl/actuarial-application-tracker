@@ -2729,12 +2729,17 @@
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
   }
+  .m-search-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 7px;
+  }
   .m-search-wrap {
     flex: 1;
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 7px;
   }
   .m-search-wrap svg {
     position: absolute;
@@ -2782,6 +2787,20 @@
   }
   .m-select:focus { border-color: var(--border2); color: var(--text); }
   .m-select option { background: var(--surface); color: var(--text); }
+  .m-filter-btn {
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m-filter-btn.active { border-color: var(--accent); color: var(--accent); }
 
   /* Mobile company list */
   .m-list {
@@ -5912,9 +5931,12 @@ function closeChangelog() {
 
   <!-- Search + filter -->
   <div class="m-controls">
-    <div class="m-search-wrap">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" class="m-search" id="mSearch" placeholder="Search companies…" oninput="mRender()">
+    <div class="m-search-row">
+      <div class="m-search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="m-search" id="mSearch" placeholder="Search companies…" oninput="mRender()">
+      </div>
+      <button class="m-filter-btn" id="mFilterBtn" onclick="mCycleFilter()">All</button>
     </div>
     <div class="m-dropdowns">
       <div class="m-select-wrap">
