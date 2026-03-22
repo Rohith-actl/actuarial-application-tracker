@@ -6,7 +6,7 @@
 
 ## What is this?
 
-Breaking into the actuarial profession is competitive. With 90+ companies across every major sector - general insurance, life, health, superannuation, banking, consulting, reinsurance, investments, and government - knowing where to apply, when, and how to stand out is genuinely hard.
+Breaking into the actuarial profession is competitive. With 75+ companies across every major sector - general insurance, life, health, superannuation, banking, consulting, reinsurance, investments, and government - knowing where to apply, when, and how to stand out is genuinely hard.
 
 This tracker was built to solve that. It's a single, beautifully designed web app that gives you everything in one place: curated company data, application tracking, career advice from professionals, and a clean interface you'll actually want to use.
 
