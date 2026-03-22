@@ -5850,7 +5850,7 @@ function closeChangelog() {
     </button>
     <div class="m-menu-divider"></div>
     <button class="m-menu-item" id="mMenuHelpBtn" onclick="mMenuAction(()=>mOpenHelp())">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></svg>
       <span>Help</span>
     </button>
     <button class="m-menu-item" onclick="mMenuAction(()=>mOpenFeedback())">
@@ -5965,12 +5965,16 @@ function mMenuAction(fn) {
 
 function mDeleteCompany() {
   if (!mCurrentId) return;
-  if (!confirm('Remove this company from the tracker? You can restore it using Reset All.')) return;
-  deleteCompany(mCurrentId);
-  document.getElementById('mSheet').classList.remove('open');
-  mCurrentId = null;
-  mRender();
-  mUpdatePipeline();
+  const idToDelete = mCurrentId;
+  // deleteCompany already shows a confirm dialog
+  deleteCompany(idToDelete);
+  // Only close sheet and re-render if company was actually removed
+  if (!data.find(x => x.id === idToDelete)) {
+    document.getElementById('mSheet').classList.remove('open');
+    mCurrentId = null;
+    mRender();
+    mUpdatePipeline();
+  }
 }
 
 function mIsMobile() {
