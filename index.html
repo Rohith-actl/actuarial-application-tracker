@@ -2883,7 +2883,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 8px;
     flex-shrink: 0;
     padding: 2px 0;
   }
@@ -6199,7 +6200,6 @@ function mRender() {
           </div>
           <div class="m-card-right">
             <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
-            <div style="flex:1;"></div>
             ${intakeDotHtml}
           </div>
         </div>
