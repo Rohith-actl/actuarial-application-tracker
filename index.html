@@ -581,6 +581,7 @@
     color: var(--text-muted);
     cursor: pointer;
     font-size: 16px;
+    line-height: 1;
     transition: all 0.15s;
     flex-shrink: 0;
   }
@@ -1187,6 +1188,7 @@
     flex-shrink: 0;
     white-space: nowrap;
   }
+  .reset-btn svg { display: block; flex-shrink: 0; margin-bottom: 1px; }
   .reset-btn:hover {
     background: rgba(239,68,68,0.1);
     border-color: rgba(239,68,68,0.6);
@@ -2424,13 +2426,20 @@
     letter-spacing: 0.5px;
   }
   .m-theme-btn {
-    background: none;
-    border: 1px solid var(--border);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
     border-radius: 8px;
-    padding: 6px 10px;
+    border: 1px solid var(--border2);
+    background: var(--surface2);
     color: var(--text-muted);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+    flex-shrink: 0;
   }
   .m-header-right {
     display: flex;
