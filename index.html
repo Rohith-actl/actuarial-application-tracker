@@ -2270,8 +2270,9 @@
     /* Hide entire desktop layout */
     header, .sub-banner, .sidebar, .sidebar-tab,
     .layout, .watermark, .col-resize-hint,
-    .modal-overlay, #loginOverlay,
     .screen-toast { display: none !important; }
+    /* Hide all modals except feedback which is usable on mobile */
+    .modal-overlay:not(#feedbackModal), #loginOverlay { display: none !important; }
 
     /* Show mobile shell */
     #mobileApp { display: flex !important; }
@@ -2329,20 +2330,35 @@
     align-items: center;
     gap: 8px;
   }
-  .m-help-btn {
-    display: flex;
+  .m-feedback-btn {
+    display: flex !important;
     align-items: center;
     justify-content: center;
     width: 34px; height: 34px;
     border-radius: 8px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border2);
     background: var(--surface2);
     color: var(--text-muted);
     cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: 'DM Serif Display', serif;
     -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .m-feedback-btn:active { color: var(--text); border-color: var(--accent); }
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+    flex-shrink: 0;
   }
   .m-help-btn.pulsing {
     border-color: var(--accent);
@@ -5472,6 +5488,9 @@ function closeChangelog() {
       </div>
     </div>
     <div class="m-header-right">
+      <button class="m-feedback-btn" onclick="mOpenFeedback()" title="Send feedback">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </button>
       <button class="m-help-btn" id="mHelpBtn" onclick="mOpenHelp()">?</button>
       <button class="m-theme-btn" onclick="toggleTheme()" id="mThemeBtn">🌙</button>
     </div>
@@ -5675,6 +5694,7 @@ function mOpenSheet(id) {
     c.interest ? `<div class="m-sheet-row"><div class="m-sheet-key">Student Interest</div><div class="m-sheet-val">${c.interest}</div></div>` : '',
     c.type     ? `<div class="m-sheet-row"><div class="m-sheet-key">Type</div><div class="m-sheet-val">${c.type}</div></div>` : '',
     c.prePenu  ? `<div class="m-sheet-row"><div class="m-sheet-key">Pre-penu</div><div class="m-sheet-val">${c.prePenu}</div></div>` : '',
+    `<div class="m-sheet-row"><div class="m-sheet-key">Date Applied</div><div class="m-sheet-val">${c.dateApplied || '-'}</div></div>`,
     c.link && c.link !== '-' ? `<div class="m-sheet-row"><div class="m-sheet-key">Careers</div><div class="m-sheet-val"><a class="m-careers-link" href="${c.link}" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Open careers page</a></div></div>` : '',
     c.notes    ? `<div class="m-notes-text">${c.notes}</div>` : '',
   ].filter(Boolean).join('');
@@ -5720,6 +5740,22 @@ function mSetStatus(status) {
   saveStatuses();
   mRender();
   mUpdatePipeline();
+
+  // Re-render sheet body so Date Applied row updates
+  const refreshed = data.find(x => x.id === mCurrentId);
+  if (refreshed) {
+    const updatedRows = [
+      refreshed.dates    ? `<div class="m-sheet-row"><div class="m-sheet-key">Application Period</div><div class="m-sheet-val">${refreshed.dates}</div></div>` : '',
+      refreshed.program  ? `<div class="m-sheet-row"><div class="m-sheet-key">Programme</div><div class="m-sheet-val">${refreshed.program}</div></div>` : '',
+      refreshed.interest ? `<div class="m-sheet-row"><div class="m-sheet-key">Student Interest</div><div class="m-sheet-val">${refreshed.interest}</div></div>` : '',
+      refreshed.type     ? `<div class="m-sheet-row"><div class="m-sheet-key">Type</div><div class="m-sheet-val">${refreshed.type}</div></div>` : '',
+      refreshed.prePenu  ? `<div class="m-sheet-row"><div class="m-sheet-key">Pre-penu</div><div class="m-sheet-val">${refreshed.prePenu}</div></div>` : '',
+      `<div class="m-sheet-row"><div class="m-sheet-key">Date Applied</div><div class="m-sheet-val">${refreshed.dateApplied || '-'}</div></div>`,
+      refreshed.link && refreshed.link !== '-' ? `<div class="m-sheet-row"><div class="m-sheet-key">Careers</div><div class="m-sheet-val"><a class="m-careers-link" href="${refreshed.link}" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Open careers page</a></div></div>` : '',
+      refreshed.notes    ? `<div class="m-notes-text">${refreshed.notes}</div>` : '',
+    ].filter(Boolean).join('');
+    document.getElementById('mSheetBody').innerHTML = updatedRows;
+  }
 
   // Re-render status buttons
   const statuses = ['', 'Applied', 'Online Assessment', 'Interview', 'Offer'];
@@ -5797,15 +5833,15 @@ window.addEventListener('resize', () => {
         </div>
         <div class="m-help-item">
           <div class="m-help-term">Date applied</div>
-          <div class="m-help-desc">When you set a company to "Applied", today's date is automatically recorded. This date is preserved even if you later change the status to OA, Interview, or Offer.</div>
+          <div class="m-help-desc">When you set a company to "Applied", today's date is automatically recorded and shown in the company detail view. The date is preserved even if you later change the status to OA, Interview, or Offer. Reset to "Not Started" to clear it.</div>
         </div>
         <div class="m-help-item">
           <div class="m-help-term">Pipeline summary</div>
           <div class="m-help-desc">The bar at the top shows your total company count and a live breakdown of Applied, OA, Interview, and Offer. It updates whenever you change a status.</div>
         </div>
         <div class="m-help-item">
-          <div class="m-help-term">Syncs with desktop</div>
-          <div class="m-help-desc">All statuses are stored in your browser's local storage. Changes made on your phone are visible when you open the tracker on the same browser on a laptop or desktop, and vice versa.</div>
+          <div class="m-help-term">Does NOT sync with desktop</div>
+          <div class="m-help-desc">Local storage is stored per browser, per device. Changes made on your phone are not visible on your laptop and vice versa: they are completely separate copies of the data.</div>
         </div>
       </div>
 
@@ -5831,10 +5867,6 @@ window.addEventListener('resize', () => {
           <div class="m-help-term">Full features on desktop</div>
           <div class="m-help-desc">The phone version shows a summary view. Open the tracker on a laptop or desktop for the full experience including inline editing, CSV import/export, the Career Playbook sidebar, column sorting, and advanced filters.</div>
         </div>
-        <div class="m-help-item">
-          <div class="m-help-term">Feedback</div>
-          <div class="m-help-desc">Found an error or want to suggest a company? Open the tracker on desktop and use the Feedback button: all submissions go directly to Rohith Narayanan.</div>
-        </div>
       </div>
 
     </div>
@@ -5844,6 +5876,11 @@ window.addEventListener('resize', () => {
 <script>
 // ── MOBILE HELP ──
 const M_HELP_SEEN_KEY = 'mq_mobile_help_seen';
+
+function mOpenFeedback() {
+  // Reuse the desktop feedback modal - it's position:fixed and works on mobile
+  openFeedback();
+}
 
 function mOpenHelp() {
   document.getElementById('mHelpOverlay').classList.add('open');
