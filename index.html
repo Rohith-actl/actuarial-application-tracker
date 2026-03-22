@@ -2722,8 +2722,9 @@
   /* Mobile search + filter bar */
   .m-controls {
     display: flex;
-    gap: 8px;
-    padding: 10px 16px;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 12px 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
@@ -2733,6 +2734,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    margin-bottom: 7px;
   }
   .m-search-wrap svg {
     position: absolute;
@@ -2752,19 +2754,34 @@
     outline: none;
   }
   .m-search:focus { border-color: var(--border2); }
-  .m-filter-btn {
-    padding: 8px 12px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
+  .m-dropdowns {
+    display: flex;
+    gap: 6px;
+    padding: 0 0 8px;
+  }
+  .m-select-wrap {
+    flex: 1;
+    position: relative;
+  }
+  .m-select {
+    width: 100%;
+    padding: 7px 8px;
     background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
     color: var(--text-muted);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    text-overflow: ellipsis;
     white-space: nowrap;
-    flex-shrink: 0;
+    overflow: hidden;
   }
-  .m-filter-btn.active { border-color: var(--accent); color: var(--accent); }
+  .m-select:focus { border-color: var(--border2); color: var(--text); }
+  .m-select option { background: var(--surface); color: var(--text); }
 
   /* Mobile company list */
   .m-list {
@@ -5899,7 +5916,39 @@ function closeChangelog() {
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" class="m-search" id="mSearch" placeholder="Search companies…" oninput="mRender()">
     </div>
-    <button class="m-filter-btn" id="mFilterBtn" onclick="mCycleFilter()">All</button>
+    <div class="m-dropdowns">
+      <div class="m-select-wrap">
+        <select class="m-select" id="mSectorSelect" onchange="mRender()">
+          <option value="all">All</option>
+          <option value="General">General</option>
+          <option value="Reinsurance">Re</option>
+          <option value="Life">Life</option>
+          <option value="Health">Health</option>
+          <option value="Super / Pensions">Super</option>
+          <option value="Banking / Financial">Banking</option>
+          <option value="Consulting">Consulting</option>
+          <option value="Investment / Asset">Investment</option>
+          <option value="Data / Tech">Data</option>
+          <option value="Government">Government</option>
+        </select>
+      </div>
+      <div class="m-select-wrap">
+        <select class="m-select" id="mSortSelect" onchange="mRender()">
+          <option value="none">Sort</option>
+          <option value="company">Company</option>
+          <option value="interest">Interest</option>
+          <option value="intake">Intake</option>
+        </select>
+      </div>
+      <div class="m-select-wrap">
+        <select class="m-select" id="mTypeSelect" onchange="mRender()">
+          <option value="all">All types</option>
+          <option value="Grad">Grad</option>
+          <option value="Intern">Intern</option>
+          <option value="prepenu">Pre-penu</option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <!-- Company list -->
@@ -6043,19 +6092,44 @@ function mInterestColor(interest) {
 
 function mRender() {
   if (!mIsMobile()) return;
-  const q = (document.getElementById('mSearch')?.value || '').toLowerCase();
-  const filter = M_FILTERS[mFilterIdx];
+  const q          = (document.getElementById('mSearch')?.value || '').toLowerCase();
+  const sector     = document.getElementById('mSectorSelect')?.value || 'all';
+  const sortVal    = document.getElementById('mSortSelect')?.value || 'none';
+  const typeVal    = document.getElementById('mTypeSelect')?.value || 'all';
+  const filter     = M_FILTERS[mFilterIdx]; // status filter (kept for compatibility)
 
-  const filtered = data.filter(c => {
+  let filtered = data.filter(c => {
     const matchQ = !q || c.company.toLowerCase().includes(q) ||
       (c.sector||'').toLowerCase().includes(q) ||
       (c.notes||'').toLowerCase().includes(q) ||
       (c.program||'').toLowerCase().includes(q);
-    const matchF = filter === 'All' ? true :
+    const matchStatus = filter === 'All' ? true :
       filter === 'Not Started' ? !c.status :
       c.status === filter;
-    return matchQ && matchF;
+    const matchSector = sector === 'all' || c.sector === sector;
+    const matchType = typeVal === 'all' ? true :
+      typeVal === 'prepenu' ? !!c.prePenu :
+      (c.type || '').includes(typeVal);
+    return matchQ && matchStatus && matchSector && matchType;
   });
+
+  // Sort
+  if (sortVal === 'company') {
+    filtered = [...filtered].sort((a, b) => a.company.localeCompare(b.company));
+  } else if (sortVal === 'interest') {
+    const order = { 'Very High':5, 'High':4, 'Medium':3, 'Low–Med':2, 'Low':1, '':0 };
+    filtered = [...filtered].sort((a, b) => (order[b.interest]||0) - (order[a.interest]||0));
+  } else if (sortVal === 'intake') {
+    const order = { 'Large':3, 'Medium':2, 'Small':1, '':0 };
+    filtered = [...filtered].sort((a, b) => (order[b.intake]||0) - (order[a.intake]||0));
+  } else {
+    // Default: sort by sector order
+    filtered = [...filtered].sort((a, b) => {
+      const ai = SECTOR_ORDER.indexOf(a.sector);
+      const bi = SECTOR_ORDER.indexOf(b.sector);
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+    });
+  }
 
   const list = document.getElementById('mList');
   if (!list) return;
