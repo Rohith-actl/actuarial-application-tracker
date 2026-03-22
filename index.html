@@ -950,6 +950,11 @@
   @media (max-width: 1280px) {
     /* Scale down layout padding */
     .layout { padding: 20px 20px 60px; }
+    /* Tighten sub-banner buttons so everything fits on one line */
+    .sub-banner-inner { gap: 4px; }
+    .add-company-btn, .reset-btn, .feedback-btn { padding: 5px 8px; font-size: 10px; }
+    .view-btn { width: 28px; height: 28px; }
+    .donate-btn, .help-btn, .theme-toggle { width: 28px; height: 28px; font-size: 13px; }
   }
 
   /* ── SCREEN SIZE TOAST ── */
@@ -1060,6 +1065,107 @@
   @keyframes helpPulse {
     0%, 100% { box-shadow: 0 0 0 0 rgba(124,158,255,0.6); border-color: var(--accent); }
     50%       { box-shadow: 0 0 0 10px rgba(124,158,255,0); border-color: var(--accent2); }
+  }
+
+  /* ── DONATE BUTTON ── */
+  .donate-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Serif Display', serif;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .donate-btn:hover { border-color: var(--gold); background: rgba(232,184,75,0.08); }
+
+  /* ── DONATE MODAL ── */
+  .donate-modal { max-width: 480px; }
+  .donate-hero {
+    text-align: center;
+    padding: 8px 0 20px;
+  }
+  .donate-emoji { font-size: 40px; margin-bottom: 12px; }
+  .donate-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .donate-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .donate-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .donate-body p { margin-bottom: 12px; }
+  .donate-body p:last-child { margin-bottom: 0; }
+  .donate-uses {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+  .donate-uses-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .donate-use-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .donate-use-row:last-child { margin-bottom: 0; }
+  .donate-use-icon { flex-shrink: 0; font-size: 14px; }
+  .donate-kofi-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #FF5E5B;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    margin-bottom: 10px;
+  }
+  .donate-kofi-btn:hover { opacity: 0.88; }
+  .donate-note {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.3px;
   }
 
   /* ── RESET BUTTON ── */
@@ -2132,7 +2238,7 @@
     background: var(--header-bg);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
-    padding: 0 28px;
+    padding: 0 16px;
   }
   .sub-banner-inner {
     max-width: 1600px;
@@ -2140,9 +2246,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 6px;
     height: 46px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow: hidden;
   }
   .sub-banner-divider {
     width: 1px;
@@ -2271,8 +2378,8 @@
     header, .sub-banner, .sidebar, .sidebar-tab,
     .layout, .watermark, .col-resize-hint,
     .screen-toast { display: none !important; }
-    /* Hide all modals except feedback which is usable on mobile */
-    .modal-overlay:not(#feedbackModal), #loginOverlay { display: none !important; }
+    /* Hide all modals except feedback and donate which are usable on mobile */
+    .modal-overlay:not(#feedbackModal):not(#donateModal), #loginOverlay { display: none !important; }
 
     /* Show mobile shell */
     #mobileApp { display: flex !important; }
@@ -2330,6 +2437,22 @@
     align-items: center;
     gap: 8px;
   }
+  .m-reset-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(239,68,68,0.35);
+    background: var(--surface2);
+    color: #f87171;
+    cursor: pointer;
+    font-size: 17px;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .m-reset-btn:active { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.6); }
   .m-feedback-btn {
     display: flex !important;
     align-items: center;
@@ -2345,6 +2468,24 @@
     flex-shrink: 0;
   }
   .m-feedback-btn:active { color: var(--text); border-color: var(--accent); }
+  .m-donate-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .m-donate-btn:active { border-color: var(--gold); }
   .m-help-btn {
     display: flex !important;
     align-items: center;
@@ -2945,6 +3086,7 @@
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       Feedback
     </button>
+    <button class="donate-btn" onclick="openDonate()" title="Support this project">$</button>
     <button class="help-btn" onclick="openHelp()" title="How to use this tracker">?</button>
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
   </div>
@@ -4602,7 +4744,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Escape key closes whichever modal is open
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeModal(); closeHelp(); closeFeedback(); closeImportModal(); closeAboutMe(); closeChangelog(); }
+    if (e.key === 'Escape') { closeModal(); closeHelp(); closeFeedback(); closeImportModal(); closeAboutMe(); closeChangelog(); if(typeof closeDonate==='function') closeDonate(); }
   });
 
   // Init help button pulse for first-time visitors
@@ -5490,9 +5632,11 @@ function closeChangelog() {
       </div>
     </div>
     <div class="m-header-right">
+      <button class="m-reset-btn" onclick="mResetAll()" title="Reset all statuses">⟲</button>
       <button class="m-feedback-btn" onclick="mOpenFeedback()" title="Send feedback">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       </button>
+      <button class="m-donate-btn" onclick="openDonate()" title="Support this project">$</button>
       <button class="m-help-btn" id="mHelpBtn" onclick="mOpenHelp()">?</button>
       <button class="m-theme-btn" onclick="toggleTheme()" id="mThemeBtn">🌙</button>
     </div>
@@ -5879,6 +6023,18 @@ window.addEventListener('resize', () => {
 // ── MOBILE HELP ──
 const M_HELP_SEEN_KEY = 'mq_mobile_help_seen';
 
+function mResetAll() {
+  if (!confirm('Reset all application statuses and data? This cannot be undone.')) return;
+  localStorage.removeItem('mq_actuarial_statuses');
+  localStorage.removeItem('mq_actuarial_custom');
+  localStorage.removeItem('mq_actuarial_edits');
+  localStorage.removeItem(DATE_APPLIED_KEY);
+  // Re-init data from scratch using the desktop resetAll logic
+  resetAll();
+  mRender();
+  mUpdatePipeline();
+}
+
 function mOpenFeedback() {
   // Reuse the desktop feedback modal - it's position:fixed and works on mobile
   openFeedback();
@@ -5903,6 +6059,63 @@ function mInitHelpPulse() {
     document.getElementById('mHelpBtn')?.classList.add('pulsing');
   }
 }
+</script>
+
+<!-- ── DONATE MODAL ── -->
+<div class="modal-overlay" id="donateModal">
+  <div class="modal donate-modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <div class="modal-title">Support <span>This Project</span></div>
+      <button class="modal-close" onclick="closeDonate()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="donate-hero">
+        <div class="donate-emoji">☕</div>
+        <div class="donate-title">Keep It Free</div>
+        <div class="donate-sub">Actuarial Applications Tracker · Australia</div>
+      </div>
+
+      <div class="donate-body">
+        <p>This tracker was built to give every actuarial student in Australia access to the same quality of information and tools, regardless of which university they attend or who they know.</p>
+        <p>It will always be free. But if you have found it genuinely useful and are in a position to contribute, even a small amount goes a long way towards keeping it running and improving.</p>
+        <p>There is no obligation whatsoever: your support is appreciated, not expected.</p>
+      </div>
+
+      <div class="donate-uses">
+        <div class="donate-uses-title">What contributions go towards</div>
+        <div class="donate-use-row"><span class="donate-use-icon">📱</span><span>A proper mobile app and dedicated website, moving beyond a single HTML file</span></div>
+        <div class="donate-use-row"><span class="donate-use-icon">🔄</span><span>Backend infrastructure to sync your data across devices (phone and laptop)</span></div>
+        <div class="donate-use-row"><span class="donate-use-icon">⚡</span><span>Faster performance and a dedicated hosting environment</span></div>
+        <div class="donate-use-row"><span class="donate-use-icon">🗓️</span><span>Real-time application deadline alerts and reminders</span></div>
+        <div class="donate-use-row"><span class="donate-use-icon">📊</span><span>Richer data: interview insights, salary benchmarks, and acceptance rate trends</span></div>
+        <div class="donate-use-row"><span class="donate-use-icon">🚀</span><span>Motivation to keep building, updating, and expanding this for students like you</span></div>
+      </div>
+
+      <a class="donate-kofi-btn" href="https://ko-fi.com/rohithactltracker" target="_blank" onclick="closeDonate()">
+        ☕ Support on Ko-fi
+      </a>
+      <div class="donate-note">Donate any amount you feel is right · Secure via Ko-fi · No account required</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openDonate() {
+  document.body.classList.add('modal-open');
+  const modal = document.getElementById('donateModal');
+  modal.classList.add('open');
+  setTimeout(() => {
+    const body = modal.querySelector('.modal-body');
+    if (body) body.scrollTop = 0;
+  }, 0);
+}
+function closeDonate() {
+  document.getElementById('donateModal').classList.remove('open');
+  if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
+}
+document.getElementById('donateModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDonate();
+});
 </script>
 
 </body>
