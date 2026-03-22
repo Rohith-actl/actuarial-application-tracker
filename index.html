@@ -2875,7 +2875,13 @@
     width: 8px; height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
-    margin-top: 3px;
+  }
+  .m-card-top-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
   }
   .m-card-middle {
     display: flex;
@@ -6167,6 +6173,9 @@ function mRender() {
     const dot = mInterestColor(c.interest);
     const typeBadge = c.type ? `<span class="m-type-badge">${c.type}</span>` : '';
     const prePenuBadge = c.prePenu ? `<span class="m-prepenu-badge">⭐ Pre-penu</span>` : '';
+    const intakeMap = { Large: 3, Medium: 2, Small: 1 };
+    const intakeCount = intakeMap[c.intake] || 0;
+    const intakeDotHtml = `<div class="intake-badge" style="justify-content:center;">${[0,1,2].map(i => `<div class="intake-dot${i < intakeCount ? ' filled' : ''}"></div>`).join('')}</div>`;
     return `
       <div class="m-card" onclick="mOpenSheet(${c.id})">
         <div class="m-card-top">
@@ -6174,7 +6183,10 @@ function mRender() {
             <div class="m-card-sector">${c.sector}</div>
             <div class="m-card-name">${c.company}</div>
           </div>
-          <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
+          <div class="m-card-top-right">
+            <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
+            ${intakeDotHtml}
+          </div>
         </div>
         <div class="m-card-middle">${typeBadge}${prePenuBadge}</div>
         <div class="m-card-bottom">
@@ -6233,7 +6245,7 @@ function mOpenSheet(id) {
 
   // Status options
   const statuses = ['', 'Applied', 'Online Assessment', 'Interview', 'Offer'];
-  const labels   = ['Not Started', 'Applied', 'OA', 'Interview', 'Offer'];
+  const labels   = ['Not Started', 'Applied', 'Online Assessment', 'Interview', 'Offer'];
   const classMap = { '':'none', 'Applied':'applied', 'Online Assessment':'oa', 'Interview':'interview', 'Offer':'offer' };
   document.getElementById('mStatusOptions').innerHTML = statuses.map((s, i) =>
     `<button class="m-status-opt ${c.status === s ? 'selected-' + classMap[s] : ''}"
@@ -6289,7 +6301,7 @@ function mSetStatus(status) {
 
   // Re-render status buttons
   const statuses = ['', 'Applied', 'Online Assessment', 'Interview', 'Offer'];
-  const labels   = ['Not Started', 'Applied', 'OA', 'Interview', 'Offer'];
+  const labels   = ['Not Started', 'Applied', 'Online Assessment', 'Interview', 'Offer'];
   const classMap = { '':'none', 'Applied':'applied', 'Online Assessment':'oa', 'Interview':'interview', 'Offer':'offer' };
   document.getElementById('mStatusOptions').innerHTML = statuses.map((s, i) =>
     `<button class="m-status-opt ${status === s ? 'selected-' + classMap[s] : ''}"
