@@ -5963,7 +5963,7 @@ function mMenuAction(fn) {
 }
 
 function mDeleteCompany() {
-  if (!mCurrentId) return;
+  if (mCurrentId === null || mCurrentId === undefined) return;
   const idToDelete = mCurrentId;
   const c = data.find(x => x.id === idToDelete);
   if (!c) return;
