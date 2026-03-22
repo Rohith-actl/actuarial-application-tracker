@@ -2874,6 +2874,7 @@
   .m-card-inner {
     display: flex;
     gap: 10px;
+    align-items: stretch;
   }
   .m-card-left {
     flex: 1;
@@ -2882,9 +2883,8 @@
   .m-card-right {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    align-items: flex-end;
+    justify-content: space-between;
     flex-shrink: 0;
     padding: 2px 0;
   }
@@ -6195,12 +6195,12 @@ function mRender() {
             <div class="m-card-middle">${typeBadge}${prePenuBadge}</div>
             <div class="m-card-bottom">
               <div class="m-card-dates">${c.dates || ''}</div>
-              <div class="m-status-badge ${sc}">${badge}</div>
             </div>
           </div>
           <div class="m-card-right">
             <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
             ${intakeDotHtml}
+            <div class="m-status-badge ${sc}">${badge}</div>
           </div>
         </div>
       </div>`;
