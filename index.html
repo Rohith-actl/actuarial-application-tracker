@@ -311,11 +311,9 @@
   }
 
   table {
-    width: auto;
-    min-width: 100%;
+    width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    margin: 0 auto;
   }
 
   thead {
@@ -662,22 +660,6 @@
   }
 
   /* Notes column */
-  .notes-text {
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.4;
-    max-width: 240px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    white-space: normal;
-  }
-  /* Override truncation for notes td */
-  td:has(.notes-text) {
-    white-space: normal;
-    overflow: visible;
-  }
 
   /* ── EXPANDED ROW ── */
   .expanded-row td {
@@ -3515,14 +3497,14 @@
     <div class="table-wrap">
       <table id="mainTable">
         <colgroup>
-          <col id="col-company" style="width:198px">
-          <col id="col-dates" style="width:154px">
-          <col id="col-program" style="width:176px">
-          <col id="col-interest" style="width:143px">
-          <col id="col-intake" style="width:88px">
-          <col id="col-type" style="width:121px">
-          <col id="col-status" style="width:176px">
-          <col id="col-dateapplied" style="width:121px">
+          <col id="col-company" style="width:180px">
+          <col id="col-dates" style="width:140px">
+          <col id="col-program" style="width:160px">
+          <col id="col-interest" style="width:130px">
+          <col id="col-intake" style="width:80px">
+          <col id="col-type" style="width:110px">
+          <col id="col-status" style="width:160px">
+          <col id="col-dateapplied" style="width:110px">
         </colgroup>
         <thead>
           <tr>
@@ -3660,6 +3642,11 @@ let sortField = null, sortDir = 1;
 let currentSector = 'all';
 let currentView = 'table';
 let expandedRow = null;
+
+const SECTOR_ORDER = [
+  'General', 'Reinsurance', 'Life', 'Health', 'Super / Pensions',
+  'Banking / Financial', 'Consulting', 'Investment / Asset', 'Data / Tech', 'Government'
+];
 
 const DATE_APPLIED_KEY = 'mq_date_applied';
 
@@ -3914,13 +3901,28 @@ function renderTable(filtered) {
 
   const intakeLabels = { 0: '-', 1: 'Small', 2: 'Medium', 3: 'Large' };
 
+  // When no sort is active, ensure companies are grouped by sector in canonical order
+  if (!sortField) {
+    filtered = [...filtered].sort((a, b) => {
+      const ai = SECTOR_ORDER.indexOf(a.sector);
+      const bi = SECTOR_ORDER.indexOf(b.sector);
+      const sectorDiff = (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+      if (sectorDiff !== 0) return sectorDiff;
+      // Within same sector: built-in first (by id), then custom alphabetically
+      if (!a.custom && !b.custom) return a.id - b.id;
+      if (a.custom && !b.custom) return 1;
+      if (!a.custom && b.custom) return -1;
+      return a.company.localeCompare(b.company);
+    });
+  }
+
   let lastSector = null;
   filtered.forEach((c, idx) => {
     if (!sortField && c.sector !== lastSector) {
       lastSector = c.sector;
       const sr = document.createElement('tr');
       sr.className = 'sector-row';
-      sr.innerHTML = `<td colspan="9">${c.sector}</td>`;
+      sr.innerHTML = `<td colspan="8">${c.sector}</td>`;
       tbody.appendChild(sr);
     }
 
@@ -4167,7 +4169,7 @@ function toggleExpand(tr, c) {
         <div class="expanded-section">
           <h4>Details</h4>
           <p><strong>Sector:</strong> ${c.sector}<br><strong>Intake Size:</strong> ${c.intake || '-'}<br><strong>Type:</strong> ${c.type || '-'}<br><strong>Dates:</strong> ${c.dates || '-'}</p>
-          ${c.custom ? `<button class="delete-company-btn" onclick="deleteCustomCompany(${c.id})"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg> Remove company</button>` : ''}
+          <button class="delete-company-btn" onclick="deleteCompany(${c.id})"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg> Remove company</button>
         </div>
         <div class="expanded-section">
           <h4>Careers Link</h4>
@@ -4300,9 +4302,50 @@ function saveCustomCompanies() {
   } catch(e) {}
 }
 
+const HIDDEN_KEY = 'mq_actuarial_hidden';
+
+function loadHiddenCompanies() {
+  try {
+    const hidden = JSON.parse(localStorage.getItem(HIDDEN_KEY) || '[]');
+    if (hidden.length) data = data.filter(c => !hidden.includes(c.id));
+  } catch(e) {}
+}
+
+function saveHiddenCompany(id) {
+  try {
+    const hidden = JSON.parse(localStorage.getItem(HIDDEN_KEY) || '[]');
+    if (!hidden.includes(id)) hidden.push(id);
+    localStorage.setItem(HIDDEN_KEY, JSON.stringify(hidden));
+  } catch(e) {}
+}
+
+function deleteCompany(id) {
+  if (!confirm('Remove this company from the tracker? You can restore it using Reset All.')) return;
+  const c = data.find(x => x.id === id);
+  if (!c) return;
+  data = data.filter(x => x.id !== id);
+  if (c.custom) {
+    saveCustomCompanies();
+  } else {
+    saveHiddenCompany(id);
+  }
+  // Clean up status and date
+  try {
+    const statuses = JSON.parse(localStorage.getItem('mq_actuarial_statuses') || '{}');
+    delete statuses[id];
+    localStorage.setItem('mq_actuarial_statuses', JSON.stringify(statuses));
+  } catch(e) {}
+  try {
+    const dates = JSON.parse(localStorage.getItem(DATE_APPLIED_KEY) || '{}');
+    delete dates[id];
+    localStorage.setItem(DATE_APPLIED_KEY, JSON.stringify(dates));
+  } catch(e) {}
+  applyFilters();
+}
+
 function resetAll() {
   const confirmed = confirm(
-    'Reset all changes?\n\nThis will permanently remove:\n• All application statuses (Applied, OA, Interview, Offer)\n• All custom companies you have added\n• All field edits (dates, intake, type, etc.)\n\nThe tracker will return to its original state. This cannot be undone.'
+    'Reset all changes?\n\nThis will permanently remove:\n• All application statuses (Applied, OA, Interview, Offer)\n• All custom companies you have added\n• All hidden companies (they will reappear)\n• All field edits (dates, intake, type, etc.)\n\nThe tracker will return to its original state. This cannot be undone.'
   );
   if (!confirmed) return;
   try {
@@ -4310,6 +4353,7 @@ function resetAll() {
     localStorage.removeItem(CUSTOM_KEY);
     localStorage.removeItem(EDITS_KEY);
     localStorage.removeItem(DATE_APPLIED_KEY);
+    localStorage.removeItem(HIDDEN_KEY);
   } catch(e) {}
   // Rebuild data from scratch
   data = COMPANIES.map((c,i) => ({...c, id: i}));
@@ -4423,18 +4467,8 @@ function submitAddCompany() {
   applyFilters();
 }
 
-function deleteCustomCompany(id) {
-  if (!confirm('Remove this company from the tracker?')) return;
-  data = data.filter(c => c.id !== id);
-  saveCustomCompanies();
-  // Also clean up status
-  try {
-    const statuses = JSON.parse(localStorage.getItem('mq_actuarial_statuses') || '{}');
-    delete statuses[id];
-    localStorage.setItem('mq_actuarial_statuses', JSON.stringify(statuses));
-  } catch(e) {}
-  applyFilters();
-}
+// Alias for backward compat (card view still uses this)
+function deleteCustomCompany(id) { deleteCompany(id); }
 
 // ── FEEDBACK ──
 let selectedFeedbackType = '';
@@ -4775,6 +4809,7 @@ function loadTheme() {
 document.addEventListener('DOMContentLoaded', function() {
   loadTheme();
   loadCustomCompanies();
+  loadHiddenCompanies();
   loadEdits();
   loadStatuses();
   applyFilters();
@@ -4809,9 +4844,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ── COLUMN RESIZE & COLLAPSE ──
 const DEFAULT_COL_WIDTHS = {
-  'col-company': '198px', 'col-dates': '154px', 'col-program': '176px',
-  'col-interest': '143px', 'col-intake': '88px', 'col-type': '121px',
-  'col-status': '176px', 'col-dateapplied': '121px'
+  'col-company': '180px', 'col-dates': '140px', 'col-program': '160px',
+  'col-interest': '130px', 'col-intake': '80px', 'col-type': '110px',
+  'col-status': '160px', 'col-dateapplied': '110px'
 };
 const collapsedCols = new Set();
 
@@ -6101,6 +6136,7 @@ function mResetAll() {
   localStorage.removeItem('mq_actuarial_custom');
   localStorage.removeItem('mq_actuarial_edits');
   localStorage.removeItem(DATE_APPLIED_KEY);
+  localStorage.removeItem(HIDDEN_KEY);
   // Re-init data from scratch using the desktop resetAll logic
   resetAll();
   mRender();
