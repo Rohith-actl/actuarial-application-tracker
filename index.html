@@ -2261,6 +2261,444 @@
   @media (max-width: 768px) {
     .hero-actions { display: none; }
   }
+  /* ═══════════════════════════════════════
+     MOBILE VIEW  (≤ 768px)
+     Desktop layout is untouched - this
+     section only activates on small screens
+  ═══════════════════════════════════════ */
+  @media (max-width: 768px) {
+    /* Hide entire desktop layout */
+    header, .sub-banner, .sidebar, .sidebar-tab,
+    .layout, .watermark, .col-resize-hint,
+    .modal-overlay, #loginOverlay,
+    .screen-toast { display: none !important; }
+
+    /* Show mobile shell */
+    #mobileApp { display: flex !important; }
+  }
+
+  /* Mobile shell - hidden on desktop */
+  #mobileApp {
+    display: none;
+    flex-direction: column;
+    height: 100dvh;
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+  }
+
+  /* Mobile header */
+  .m-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 10px;
+    background: var(--header-bg);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .m-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .m-logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .m-logo-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+  }
+  .m-theme-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  /* Mobile pipeline summary */
+  .m-pipeline {
+    display: flex;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .m-pipeline::-webkit-scrollbar { display: none; }
+  .m-pip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    flex-shrink: 0;
+    min-width: 64px;
+  }
+  .m-pip-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    line-height: 1;
+  }
+  .m-pip-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .m-pip.applied  { border-color: var(--status-applied-border); }
+  .m-pip.applied  .m-pip-num { color: var(--status-applied-text); }
+  .m-pip.oa       { border-color: var(--status-oa-border); }
+  .m-pip.oa       .m-pip-num { color: var(--status-oa-text); }
+  .m-pip.interview{ border-color: var(--status-interview-border); }
+  .m-pip.interview .m-pip-num { color: var(--status-interview-text); }
+  .m-pip.offer    { border-color: var(--status-offer-border); }
+  .m-pip.offer    .m-pip-num { color: var(--status-offer-text); }
+
+  /* Mobile search + filter bar */
+  .m-controls {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .m-search-wrap {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .m-search-wrap svg {
+    position: absolute;
+    left: 10px;
+    color: var(--text-dim);
+    pointer-events: none;
+  }
+  .m-search {
+    width: 100%;
+    padding: 8px 10px 8px 32px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    outline: none;
+  }
+  .m-search:focus { border-color: var(--border2); }
+  .m-filter-btn {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .m-filter-btn.active { border-color: var(--accent); color: var(--accent); }
+
+  /* Mobile company list */
+  .m-list {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 12px 80px;
+  }
+  .m-list::-webkit-scrollbar { width: 3px; }
+  .m-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .m-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m-card:active { background: var(--surface2); }
+  .m-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .m-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+    flex: 1;
+  }
+  .m-card-sector {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .m-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .m-card-dates {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .m-status-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .m-status-badge.status-applied   { border-color: var(--status-applied-border);   color: var(--status-applied-text);   background: var(--status-applied-bg); }
+  .m-status-badge.status-oa        { border-color: var(--status-oa-border);        color: var(--status-oa-text);        background: var(--status-oa-bg); }
+  .m-status-badge.status-interview { border-color: var(--status-interview-border); color: var(--status-interview-text); background: var(--status-interview-bg); }
+  .m-status-badge.status-offer     { border-color: var(--status-offer-border);     color: var(--status-offer-text);     background: var(--status-offer-bg); }
+  .m-interest-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  /* Mobile bottom sheet */
+  .m-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: none;
+    align-items: flex-end;
+  }
+  .m-sheet-overlay.open { display: flex; }
+  .m-sheet {
+    width: 100%;
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+    padding: 0 0 env(safe-area-inset-bottom, 16px);
+    max-height: 90dvh;
+    overflow-y: auto;
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+  .m-sheet-handle {
+    width: 40px; height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    margin: 12px auto 0;
+  }
+  .m-sheet-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .m-sheet-company {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .m-sheet-sector {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .m-sheet-body { padding: 16px 20px; }
+  .m-sheet-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .m-sheet-row:last-child { border-bottom: none; }
+  .m-sheet-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .m-sheet-val {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: right;
+    flex: 1;
+    margin-left: 12px;
+  }
+  .m-careers-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  .m-notes-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    padding: 10px 0;
+  }
+  .m-status-select-wrap {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .m-status-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+  .m-status-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .m-status-opt {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m-status-opt.selected-none     { border-color: var(--border2); color: var(--text); }
+  .m-status-opt.selected-applied  { border-color: var(--status-applied-border);   color: var(--status-applied-text);   background: var(--status-applied-bg); }
+  .m-status-opt.selected-oa       { border-color: var(--status-oa-border);        color: var(--status-oa-text);        background: var(--status-oa-bg); }
+  .m-status-opt.selected-interview{ border-color: var(--status-interview-border); color: var(--status-interview-text); background: var(--status-interview-bg); }
+  .m-status-opt.selected-offer    { border-color: var(--status-offer-border);     color: var(--status-offer-text);     background: var(--status-offer-bg); }
+
+  /* Mobile empty state */
+  .m-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+  }
+  .m-empty .emoji { font-size: 36px; margin-bottom: 12px; }
+
+  /* Mobile entry screen */
+  #mobileEntry {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding: 40px 24px 40px;
+  }
+  #mobileEntry.show { display: flex; }
+  .m-entry-logo {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .m-entry-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .m-entry-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.8px;
+  }
+  .m-terms-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    max-height: 40vh;
+    overflow-y: auto;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  .m-terms-box h4 { color: var(--text); margin-bottom: 12px; font-family: 'DM Serif Display', serif; font-size: 16px; }
+  .m-terms-box p { margin-bottom: 10px; }
+  .m-terms-accept {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .m-terms-accept input { margin-top: 2px; flex-shrink: 0; accent-color: var(--accent); width: 16px; height: 16px; }
+  .m-enter-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .m-enter-btn:active { opacity: 0.85; }
+  .m-entry-error {
+    color: #f87171;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    margin-top: 10px;
+    text-align: center;
+  }
 </style>
   <script src="https://cdn.counter.dev/script.js" data-id="477be7ec-b814-4312-8213-a2a0b167bd87" data-utcoffset="11"></script>
 </head>
@@ -4864,6 +5302,332 @@ function closeChangelog() {
   if (body) body.scrollTop = 0;
   if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
 }
+</script>
+
+<!-- ═══════════════════════════════════════
+     MOBILE VIEW
+     Hidden on desktop via CSS media query.
+     Shares data[] and localStorage with desktop.
+═══════════════════════════════════════ -->
+
+<!-- Mobile entry screen (T&C) -->
+<div id="mobileEntry">
+  <div class="m-entry-logo">
+    <img src="data:image/png;base64,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" alt="Australia" style="width:48px;height:33px;object-fit:contain;margin-bottom:12px;">
+    <div class="m-entry-title">Actuarial Applications Tracker</div>
+    <div class="m-entry-sub">Australia · Rohith Narayanan</div>
+  </div>
+  <div class="m-terms-box">
+    <h4>Terms &amp; Conditions of Use</h4>
+    <p><strong>1. Access.</strong> This application tracker is provided by Rohith Narayanan free of charge for actuarial students in Australia. Access is intended for personal use.</p>
+    <p><strong>2. Use of the Tool.</strong> The Tool is provided to assist with tracking job applications. You agree to use it only for personal, non-commercial purposes.</p>
+    <p><strong>3. Restrictions.</strong> You are expected not to copy, reproduce, or redistribute the Tool or its contents; scrape or extract data from the Tool; or reverse-engineer or replicate its underlying structure.</p>
+    <p><strong>4. Intellectual Property.</strong> All content, design, and code within the Tool remain the intellectual property of Rohith Narayanan.</p>
+    <p><strong>5. No Warranty.</strong> The Tool is provided on an "as is" basis. Rohith Narayanan makes no guarantees regarding accuracy or reliability. The Tool may contain errors or outdated information.</p>
+    <p><strong>6. Limitation of Responsibility.</strong> Rohith Narayanan is not responsible for any loss or inconvenience arising from reliance on the Tool.</p>
+    <p><strong>7. Acceptance.</strong> By proceeding, you confirm that you have read and agree to these Terms.</p>
+  </div>
+  <label class="m-terms-accept" id="mTermsLabel">
+    <input type="checkbox" id="mTermsCheck">
+    I have read and agree to the Terms &amp; Conditions above
+  </label>
+  <button class="m-enter-btn" onclick="mobileAttemptEntry()">Enter</button>
+  <div class="m-entry-error" id="mEntryError"></div>
+</div>
+
+<!-- Mobile main app -->
+<div id="mobileApp">
+  <!-- Header -->
+  <div class="m-header">
+    <div class="m-logo">
+      <img src="data:image/png;base64,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" alt="" style="width:28px;height:20px;object-fit:contain;">
+      <div>
+        <div class="m-logo-text">Actuarial Tracker</div>
+        <div class="m-logo-sub">Australia · RN</div>
+      </div>
+    </div>
+    <button class="m-theme-btn" onclick="toggleTheme()" id="mThemeBtn">🌙</button>
+  </div>
+
+  <!-- Pipeline summary -->
+  <div class="m-pipeline">
+    <div class="m-pip" id="mPipAll">
+      <div class="m-pip-num" id="mPipAllNum">0</div>
+      <div class="m-pip-label">Total</div>
+    </div>
+    <div class="m-pip applied">
+      <div class="m-pip-num" id="mPipApplied">0</div>
+      <div class="m-pip-label">Applied</div>
+    </div>
+    <div class="m-pip oa">
+      <div class="m-pip-num" id="mPipOA">0</div>
+      <div class="m-pip-label">OA</div>
+    </div>
+    <div class="m-pip interview">
+      <div class="m-pip-num" id="mPipInt">0</div>
+      <div class="m-pip-label">Interview</div>
+    </div>
+    <div class="m-pip offer">
+      <div class="m-pip-num" id="mPipOffer">0</div>
+      <div class="m-pip-label">Offer</div>
+    </div>
+  </div>
+
+  <!-- Search + filter -->
+  <div class="m-controls">
+    <div class="m-search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" class="m-search" id="mSearch" placeholder="Search companies…" oninput="mRender()">
+    </div>
+    <button class="m-filter-btn" id="mFilterBtn" onclick="mCycleFilter()">All</button>
+  </div>
+
+  <!-- Company list -->
+  <div class="m-list" id="mList"></div>
+</div>
+
+<!-- Bottom sheet for company detail -->
+<div class="m-sheet-overlay" id="mSheet" onclick="mCloseSheet(event)">
+  <div class="m-sheet">
+    <div class="m-sheet-handle"></div>
+    <div class="m-sheet-header">
+      <div class="m-sheet-company" id="mSheetName"></div>
+      <div class="m-sheet-sector" id="mSheetSector"></div>
+    </div>
+    <div class="m-sheet-body" id="mSheetBody"></div>
+    <div class="m-status-select-wrap">
+      <div class="m-status-label">Application Status</div>
+      <div class="m-status-options" id="mStatusOptions"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── MOBILE APP ──
+// Shares: data[], statusClass(), TERMS_KEY, SESSION_KEY, localStorage keys
+// Does NOT touch any desktop DOM elements.
+
+const M_FILTERS = ['All','Applied','Online Assessment','Interview','Offer','Not Started'];
+let mFilterIdx = 0;
+let mCurrentId = null;
+
+function mIsMobile() {
+  return window.innerWidth <= 768;
+}
+
+function mInit() {
+  if (!mIsMobile()) return;
+
+  // Check T&C + session (same keys as desktop)
+  if (sessionStorage.getItem(SESSION_KEY) !== '1') {
+    document.getElementById('mobileEntry').classList.add('show');
+    // Pre-tick if already accepted before
+    if (localStorage.getItem(TERMS_KEY) === '1') {
+      document.getElementById('mTermsCheck').checked = true;
+    }
+    return;
+  }
+  mRender();
+  mUpdatePipeline();
+  // Sync theme toggle button
+  const isDark = !document.documentElement.classList.contains('light');
+  document.getElementById('mThemeBtn').textContent = isDark ? '🌙' : '☀️';
+}
+
+function mobileAttemptEntry() {
+  const check = document.getElementById('mTermsCheck');
+  const err   = document.getElementById('mEntryError');
+  if (!check.checked) {
+    err.textContent = 'Please accept the Terms & Conditions to continue.';
+    return;
+  }
+  err.textContent = '';
+  localStorage.setItem(TERMS_KEY, '1');
+  sessionStorage.setItem(SESSION_KEY, '1');
+  document.getElementById('mobileEntry').classList.remove('show');
+  mRender();
+  mUpdatePipeline();
+}
+
+function mInterestColor(interest) {
+  const map = {
+    'Very High': '#f87171', 'High': '#fca5a5',
+    'Medium': '#fcd34d', 'Low–Med': '#6ee7b7', 'Low': '#4ade80'
+  };
+  return map[interest] || 'var(--border2)';
+}
+
+function mRender() {
+  if (!mIsMobile()) return;
+  const q = (document.getElementById('mSearch')?.value || '').toLowerCase();
+  const filter = M_FILTERS[mFilterIdx];
+
+  const filtered = data.filter(c => {
+    const matchQ = !q || c.company.toLowerCase().includes(q) ||
+      (c.sector||'').toLowerCase().includes(q) ||
+      (c.notes||'').toLowerCase().includes(q) ||
+      (c.program||'').toLowerCase().includes(q);
+    const matchF = filter === 'All' ? true :
+      filter === 'Not Started' ? !c.status :
+      c.status === filter;
+    return matchQ && matchF;
+  });
+
+  const list = document.getElementById('mList');
+  if (!list) return;
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="m-empty"><div class="emoji">🔍</div>No companies match</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(c => {
+    const sc = statusClass(c.status);
+    const badge = c.status || 'Not Started';
+    const dot = mInterestColor(c.interest);
+    return `
+      <div class="m-card" onclick="mOpenSheet(${c.id})">
+        <div class="m-card-top">
+          <div>
+            <div class="m-card-sector">${c.sector}</div>
+            <div class="m-card-name">${c.company}</div>
+          </div>
+          <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
+        </div>
+        <div class="m-card-bottom">
+          <div class="m-card-dates">${c.dates || ''}</div>
+          <div class="m-status-badge ${sc}">${badge}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function mUpdatePipeline() {
+  if (!mIsMobile()) return;
+  const counts = { Applied:0, 'Online Assessment':0, Interview:0, Offer:0 };
+  let total = 0;
+  data.forEach(c => {
+    total++;
+    if (c.status && counts[c.status] !== undefined) counts[c.status]++;
+  });
+  document.getElementById('mPipAllNum').textContent    = total;
+  document.getElementById('mPipApplied').textContent   = counts['Applied'];
+  document.getElementById('mPipOA').textContent        = counts['Online Assessment'];
+  document.getElementById('mPipInt').textContent       = counts['Interview'];
+  document.getElementById('mPipOffer').textContent     = counts['Offer'];
+}
+
+function mCycleFilter() {
+  mFilterIdx = (mFilterIdx + 1) % M_FILTERS.length;
+  const btn = document.getElementById('mFilterBtn');
+  if (btn) {
+    btn.textContent = M_FILTERS[mFilterIdx];
+    btn.classList.toggle('active', mFilterIdx !== 0);
+  }
+  mRender();
+}
+
+function mOpenSheet(id) {
+  const c = data.find(x => x.id === id);
+  if (!c) return;
+  mCurrentId = id;
+
+  document.getElementById('mSheetName').textContent   = c.company;
+  document.getElementById('mSheetSector').textContent = c.sector;
+
+  const rows = [
+    c.dates    ? `<div class="m-sheet-row"><div class="m-sheet-key">Application Period</div><div class="m-sheet-val">${c.dates}</div></div>` : '',
+    c.program  ? `<div class="m-sheet-row"><div class="m-sheet-key">Programme</div><div class="m-sheet-val">${c.program}</div></div>` : '',
+    c.interest ? `<div class="m-sheet-row"><div class="m-sheet-key">Student Interest</div><div class="m-sheet-val">${c.interest}</div></div>` : '',
+    c.type     ? `<div class="m-sheet-row"><div class="m-sheet-key">Type</div><div class="m-sheet-val">${c.type}</div></div>` : '',
+    c.prePenu  ? `<div class="m-sheet-row"><div class="m-sheet-key">Pre-penu</div><div class="m-sheet-val">${c.prePenu}</div></div>` : '',
+    c.link && c.link !== '-' ? `<div class="m-sheet-row"><div class="m-sheet-key">Careers</div><div class="m-sheet-val"><a class="m-careers-link" href="${c.link}" target="_blank"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Open careers page</a></div></div>` : '',
+    c.notes    ? `<div class="m-notes-text">${c.notes}</div>` : '',
+  ].filter(Boolean).join('');
+
+  document.getElementById('mSheetBody').innerHTML = rows;
+
+  // Status options
+  const statuses = ['', 'Applied', 'Online Assessment', 'Interview', 'Offer'];
+  const labels   = ['Not Started', 'Applied', 'OA', 'Interview', 'Offer'];
+  const classMap = { '':'none', 'Applied':'applied', 'Online Assessment':'oa', 'Interview':'interview', 'Offer':'offer' };
+  document.getElementById('mStatusOptions').innerHTML = statuses.map((s, i) =>
+    `<button class="m-status-opt ${c.status === s ? 'selected-' + classMap[s] : ''}"
+      onclick="mSetStatus('${s}')">${labels[i]}</button>`
+  ).join('');
+
+  document.getElementById('mSheet').classList.add('open');
+}
+
+function mSetStatus(status) {
+  const c = data.find(x => x.id === mCurrentId);
+  if (!c) return;
+
+  // Date applied logic - mirrors desktop
+  if (status === 'Applied' && !c.dateApplied) {
+    const today = new Date();
+    c.dateApplied = today.toLocaleDateString('en-AU', { day:'2-digit', month:'2-digit', year:'numeric' });
+    // Save date applied
+    try {
+      const dates = JSON.parse(localStorage.getItem(DATE_APPLIED_KEY) || '{}');
+      dates[c.id] = c.dateApplied;
+      localStorage.setItem(DATE_APPLIED_KEY, JSON.stringify(dates));
+    } catch(e) {}
+  } else if (!status) {
+    c.dateApplied = '';
+    try {
+      const dates = JSON.parse(localStorage.getItem(DATE_APPLIED_KEY) || '{}');
+      delete dates[c.id];
+      localStorage.setItem(DATE_APPLIED_KEY, JSON.stringify(dates));
+    } catch(e) {}
+  }
+
+  c.status = status;
+  saveStatuses();
+  mRender();
+  mUpdatePipeline();
+
+  // Re-render status buttons
+  const statuses = ['', 'Applied', 'Online Assessment', 'Interview', 'Offer'];
+  const labels   = ['Not Started', 'Applied', 'OA', 'Interview', 'Offer'];
+  const classMap = { '':'none', 'Applied':'applied', 'Online Assessment':'oa', 'Interview':'interview', 'Offer':'offer' };
+  document.getElementById('mStatusOptions').innerHTML = statuses.map((s, i) =>
+    `<button class="m-status-opt ${status === s ? 'selected-' + classMap[s] : ''}"
+      onclick="mSetStatus('${s}')">${labels[i]}</button>`
+  ).join('');
+}
+
+function mCloseSheet(e) {
+  if (e.target === document.getElementById('mSheet')) {
+    document.getElementById('mSheet').classList.remove('open');
+    mCurrentId = null;
+  }
+}
+
+// Override toggleTheme to also update mobile button
+const _origToggleTheme = window.toggleTheme;
+window.toggleTheme = function() {
+  if (_origToggleTheme) _origToggleTheme();
+  const isDark = !document.documentElement.classList.contains('light');
+  const mBtn = document.getElementById('mThemeBtn');
+  if (mBtn) mBtn.textContent = isDark ? '🌙' : '☀️';
+};
+
+// Init mobile on load
+document.addEventListener('DOMContentLoaded', () => {
+  if (mIsMobile()) {
+    mInit();
+  }
+});
+
+// Re-check on resize (tablet rotation etc.)
+window.addEventListener('resize', () => {
+  if (mIsMobile()) {
+    mInit();
+    mRender();
+    mUpdatePipeline();
+  }
+});
 </script>
 
 </body>
