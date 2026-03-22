@@ -2763,6 +2763,35 @@
     flex-shrink: 0;
     margin-top: 3px;
   }
+  .m-card-middle {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 5px 0 2px;
+  }
+  .m-type-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .m-prepenu-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(240,192,96,0.12);
+    border: 1px solid rgba(240,192,96,0.3);
+    color: var(--gold);
+    white-space: nowrap;
+  }
 
   /* Mobile bottom sheet */
   .m-sheet-overlay {
@@ -4422,6 +4451,7 @@ function openFeedback() {
   document.getElementById('feedbackDetails').value = '';
   document.getElementById('feedbackCompany').value = '';
   selectedFeedbackType = '';
+  selectedFeedbackPlatform = '';
   document.querySelectorAll('.feedback-type-btn').forEach(b => b.classList.remove('selected'));
   // Scroll to top
   setTimeout(() => {
@@ -4442,14 +4472,28 @@ function selectFeedbackType(btn, type) {
   document.getElementById('feedbackType').value = type;
 }
 
+let selectedFeedbackPlatform = '';
+
+function selectFeedbackPlatform(btn, platform) {
+  document.querySelectorAll('#feedbackPlatformGrid .feedback-type-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedFeedbackPlatform = platform;
+  document.getElementById('feedbackPlatform').value = platform;
+}
+
 function submitFeedback() {
-  const details = document.getElementById('feedbackDetails').value.trim();
-  const company = document.getElementById('feedbackCompany').value.trim();
-  const errEl   = document.getElementById('feedbackError');
+  const details  = document.getElementById('feedbackDetails').value.trim();
+  const company  = document.getElementById('feedbackCompany').value.trim();
+  const errEl    = document.getElementById('feedbackError');
 
   errEl.style.display = 'none';
   if (!details) {
     errEl.textContent = 'Please describe your feedback in the details box.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!selectedFeedbackPlatform) {
+    errEl.textContent = 'Please select which version this relates to.';
     errEl.style.display = 'block';
     return;
   }
@@ -4458,6 +4502,7 @@ function submitFeedback() {
   const body = JSON.stringify({
     _subject: `Actuarial Tracker Feedback -- ${type}`,
     type,
+    platform: selectedFeedbackPlatform,
     company: company || '--',
     details,
     time: new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' })
@@ -5363,6 +5408,20 @@ document.addEventListener('selectstart', function(e) {
 
       <input type="hidden" id="feedbackType" value="">
 
+      <div class="modal-section-label" style="margin-top:14px;">Which version does this relate to? <span class="required-star">*</span></div>
+      <div class="feedback-type-grid" id="feedbackPlatformGrid" style="grid-template-columns:repeat(3,1fr);">
+        <button class="feedback-type-btn" onclick="selectFeedbackPlatform(this,'💻 Laptop / Desktop')">
+          <span class="ft-icon">💻</span>Laptop / Desktop
+        </button>
+        <button class="feedback-type-btn" onclick="selectFeedbackPlatform(this,'📱 Phone / Mobile')">
+          <span class="ft-icon">📱</span>Phone / Mobile
+        </button>
+        <button class="feedback-type-btn" onclick="selectFeedbackPlatform(this,'💻📱 Both')">
+          <span class="ft-icon">🔀</span>Both
+        </button>
+      </div>
+      <input type="hidden" id="feedbackPlatform" value="">
+
       <div class="modal-grid" style="margin-bottom:12px;">
         <div class="form-field" style="grid-column:1/-1;">
           <label>Company (if relevant)</label>
@@ -5795,6 +5854,8 @@ function mRender() {
     const sc = statusClass(c.status);
     const badge = c.status || 'Not Started';
     const dot = mInterestColor(c.interest);
+    const typeBadge = c.type ? `<span class="m-type-badge">${c.type}</span>` : '';
+    const prePenuBadge = c.prePenu ? `<span class="m-prepenu-badge">⭐ Pre-penu</span>` : '';
     return `
       <div class="m-card" onclick="mOpenSheet(${c.id})">
         <div class="m-card-top">
@@ -5804,6 +5865,7 @@ function mRender() {
           </div>
           <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
         </div>
+        <div class="m-card-middle">${typeBadge}${prePenuBadge}</div>
         <div class="m-card-bottom">
           <div class="m-card-dates">${c.dates || ''}</div>
           <div class="m-status-badge ${sc}">${badge}</div>
