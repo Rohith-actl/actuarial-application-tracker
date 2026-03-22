@@ -2327,38 +2327,38 @@
 
   /* Mobile pipeline summary */
   .m-pipeline {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 6px;
-    padding: 10px 16px;
+    padding: 10px 12px;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
-    justify-content: center;
-    flex-wrap: wrap;
+    overflow: hidden;
   }
   .m-pip {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    padding: 8px 14px;
+    padding: 8px 4px;
     border-radius: 10px;
     border: 1px solid var(--border);
     background: var(--surface2);
-    flex-shrink: 0;
-    min-width: 64px;
+    min-width: 0;
   }
   .m-pip-num {
     font-family: 'DM Serif Display', serif;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1;
   }
   .m-pip-label {
     font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.5px;
+    font-size: 8px;
+    letter-spacing: 0.3px;
     text-transform: uppercase;
     color: var(--text-dim);
+    text-align: center;
   }
   .m-pip.applied  { border-color: var(--status-applied-border); }
   .m-pip.applied  .m-pip-num { color: var(--status-applied-text); }
