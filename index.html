@@ -2324,8 +2324,110 @@
     cursor: pointer;
     font-size: 14px;
   }
+  .m-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .m-help-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Serif Display', serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .m-help-btn.pulsing {
+    border-color: var(--accent);
+    color: var(--accent);
+    animation: mHelpPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes mHelpPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124,158,255,0.6); border-color: var(--accent); }
+    50%       { box-shadow: 0 0 0 10px rgba(124,158,255,0); border-color: var(--accent2); }
+  }
 
-  /* Mobile pipeline summary */
+  /* Mobile help modal */
+  .m-help-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    display: none;
+    align-items: flex-end;
+  }
+  .m-help-overlay.open { display: flex; }
+  .m-help-sheet {
+    width: 100%;
+    background: var(--surface);
+    border-radius: 20px 20px 0 0;
+    max-height: 88dvh;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.25s ease;
+  }
+  .m-help-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .m-help-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--text);
+  }
+  .m-help-close {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .m-help-body {
+    overflow-y: auto;
+    padding: 16px 20px 40px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .m-help-section {
+    margin-bottom: 20px;
+  }
+  .m-help-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .m-help-item {
+    margin-bottom: 12px;
+  }
+  .m-help-term {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+  .m-help-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
   .m-pipeline {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -5369,7 +5471,10 @@ function closeChangelog() {
         <div class="m-logo-sub">Australia · RN</div>
       </div>
     </div>
-    <button class="m-theme-btn" onclick="toggleTheme()" id="mThemeBtn">🌙</button>
+    <div class="m-header-right">
+      <button class="m-help-btn" id="mHelpBtn" onclick="mOpenHelp()">?</button>
+      <button class="m-theme-btn" onclick="toggleTheme()" id="mThemeBtn">🌙</button>
+    </div>
   </div>
 
   <!-- Pipeline summary -->
@@ -5457,6 +5562,7 @@ function mInit() {
   }
   mRender();
   mUpdatePipeline();
+  mInitHelpPulse();
   // Sync theme toggle button
   const isDark = !document.documentElement.classList.contains('light');
   document.getElementById('mThemeBtn').textContent = isDark ? '🌙' : '☀️';
@@ -5656,6 +5762,108 @@ window.addEventListener('resize', () => {
     mUpdatePipeline();
   }
 });
+</script>
+
+<!-- Mobile help modal -->
+<div class="m-help-overlay" id="mHelpOverlay" onclick="mCloseHelp(event)">
+  <div class="m-help-sheet">
+    <div class="m-help-top">
+      <div class="m-help-title">How to Use</div>
+      <button class="m-help-close" onclick="mCloseHelp()">✕ Close</button>
+    </div>
+    <div class="m-help-body">
+
+      <div class="m-help-section">
+        <div class="m-help-section-title">Browsing Companies</div>
+        <div class="m-help-item">
+          <div class="m-help-term">Company cards</div>
+          <div class="m-help-desc">Scroll through the list to browse all companies. Each card shows the sector, company name, application period, interest level (coloured dot), and your current status.</div>
+        </div>
+        <div class="m-help-item">
+          <div class="m-help-term">Tap a card</div>
+          <div class="m-help-desc">Tap any company card to open a detail sheet with full information including notes, programme type, intake, pre-penultimate details, and a link to the careers page.</div>
+        </div>
+        <div class="m-help-item">
+          <div class="m-help-term">Interest dot colour</div>
+          <div class="m-help-desc">The coloured dot on each card shows student interest level. Red = Very High competition, pink = High, amber = Medium, mint = Low–Med, green = Low (least competitive).</div>
+        </div>
+      </div>
+
+      <div class="m-help-section">
+        <div class="m-help-section-title">Tracking Applications</div>
+        <div class="m-help-item">
+          <div class="m-help-term">Setting status</div>
+          <div class="m-help-desc">Tap a company card, then tap one of the five status buttons at the bottom of the detail sheet: Not Started, Applied, OA, Interview, or Offer.</div>
+        </div>
+        <div class="m-help-item">
+          <div class="m-help-term">Date applied</div>
+          <div class="m-help-desc">When you set a company to "Applied", today's date is automatically recorded. This date is preserved even if you later change the status to OA, Interview, or Offer.</div>
+        </div>
+        <div class="m-help-item">
+          <div class="m-help-term">Pipeline summary</div>
+          <div class="m-help-desc">The bar at the top shows your total company count and a live breakdown of Applied, OA, Interview, and Offer. It updates whenever you change a status.</div>
+        </div>
+        <div class="m-help-item">
+          <div class="m-help-term">Syncs with desktop</div>
+          <div class="m-help-desc">All statuses are stored in your browser's local storage. Changes made on your phone are visible when you open the tracker on the same browser on a laptop or desktop, and vice versa.</div>
+        </div>
+      </div>
+
+      <div class="m-help-section">
+        <div class="m-help-section-title">Search &amp; Filter</div>
+        <div class="m-help-item">
+          <div class="m-help-term">Search bar</div>
+          <div class="m-help-desc">Type to instantly filter companies by name, sector, programme type, or notes. Results update as you type.</div>
+        </div>
+        <div class="m-help-item">
+          <div class="m-help-term">Filter button</div>
+          <div class="m-help-desc">Tap the filter button (top right of the search bar) to cycle through: All, Applied, OA, Interview, Offer, Not Started. Tap again to move to the next filter.</div>
+        </div>
+      </div>
+
+      <div class="m-help-section">
+        <div class="m-help-section-title">About This Tracker</div>
+        <div class="m-help-item">
+          <div class="m-help-term">What is this?</div>
+          <div class="m-help-desc">A free application tracker built specifically for Australian actuarial students. It lists every major actuarial employer in Australia across general insurance, reinsurance, life, health, superannuation, banking, consulting, investments, and government sectors.</div>
+        </div>
+        <div class="m-help-item">
+          <div class="m-help-term">Full features on desktop</div>
+          <div class="m-help-desc">The phone version shows a summary view. Open the tracker on a laptop or desktop for the full experience including inline editing, CSV import/export, the Career Playbook sidebar, column sorting, and advanced filters.</div>
+        </div>
+        <div class="m-help-item">
+          <div class="m-help-term">Feedback</div>
+          <div class="m-help-desc">Found an error or want to suggest a company? Open the tracker on desktop and use the Feedback button: all submissions go directly to Rohith Narayanan.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ── MOBILE HELP ──
+const M_HELP_SEEN_KEY = 'mq_mobile_help_seen';
+
+function mOpenHelp() {
+  document.getElementById('mHelpOverlay').classList.add('open');
+  // Stop pulsing permanently
+  const btn = document.getElementById('mHelpBtn');
+  if (btn) btn.classList.remove('pulsing');
+  localStorage.setItem(M_HELP_SEEN_KEY, '1');
+}
+
+function mCloseHelp(e) {
+  if (!e || e.target === document.getElementById('mHelpOverlay') || e.currentTarget?.classList.contains('m-help-close')) {
+    document.getElementById('mHelpOverlay').classList.remove('open');
+  }
+}
+
+function mInitHelpPulse() {
+  if (!localStorage.getItem(M_HELP_SEEN_KEY)) {
+    document.getElementById('mHelpBtn')?.classList.add('pulsing');
+  }
+}
 </script>
 
 </body>
