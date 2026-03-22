@@ -2515,11 +2515,35 @@
     from { transform: translateY(100%); }
     to   { transform: translateY(0); }
   }
+  .m-sheet-handle-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 16px 4px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
   .m-sheet-handle {
     width: 40px; height: 4px;
     background: var(--border2);
     border-radius: 2px;
-    margin: 12px auto 0;
+  }
+  .m-sheet-close-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 12px;
+  }
+  .m-sheet-close-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
   .m-sheet-header {
     padding: 16px 20px 12px;
@@ -3832,7 +3856,7 @@ function toggleExpand(tr, c) {
   expTr.className = 'expanded-row';
   expTr.dataset.forId = c.id;
   expTr.innerHTML = `
-    <td colspan="8">
+    <td colspan="9">
       <div class="expanded-content">
         <div class="expanded-section">
           <h4>Notes</h4>
@@ -5388,10 +5412,15 @@ function closeChangelog() {
 <!-- Bottom sheet for company detail -->
 <div class="m-sheet-overlay" id="mSheet" onclick="mCloseSheet(event)">
   <div class="m-sheet">
-    <div class="m-sheet-handle"></div>
-    <div class="m-sheet-header">
-      <div class="m-sheet-company" id="mSheetName"></div>
+    <div class="m-sheet-handle-wrap" onclick="document.getElementById('mSheet').classList.remove('open'); mCurrentId = null;">
+      <div class="m-sheet-handle"></div>
+    </div>
+    <div class="m-sheet-close-row">
       <div class="m-sheet-sector" id="mSheetSector"></div>
+      <button class="m-sheet-close-btn" onclick="document.getElementById('mSheet').classList.remove('open'); mCurrentId = null;">✕ Close</button>
+    </div>
+    <div class="m-sheet-header" style="padding-top:0;">
+      <div class="m-sheet-company" id="mSheetName"></div>
     </div>
     <div class="m-sheet-body" id="mSheetBody"></div>
     <div class="m-status-select-wrap">
