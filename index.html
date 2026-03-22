@@ -311,9 +311,11 @@
   }
 
   table {
-    width: 100%;
+    width: auto;
+    min-width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
+    margin: 0 auto;
   }
 
   thead {
@@ -3513,15 +3515,14 @@
     <div class="table-wrap">
       <table id="mainTable">
         <colgroup>
-          <col id="col-company" style="width:180px">
-          <col id="col-dates" style="width:140px">
-          <col id="col-program" style="width:160px">
-          <col id="col-interest" style="width:130px">
-          <col id="col-intake" style="width:80px">
-          <col id="col-type" style="width:110px">
-          <col id="col-status" style="width:160px">
-          <col id="col-dateapplied" style="width:110px">
-          <col id="col-notes" style="width:220px">
+          <col id="col-company" style="width:198px">
+          <col id="col-dates" style="width:154px">
+          <col id="col-program" style="width:176px">
+          <col id="col-interest" style="width:143px">
+          <col id="col-intake" style="width:88px">
+          <col id="col-type" style="width:121px">
+          <col id="col-status" style="width:176px">
+          <col id="col-dateapplied" style="width:121px">
         </colgroup>
         <thead>
           <tr>
@@ -3533,7 +3534,6 @@
             <th>Type<span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-type"></span></th>
             <th>Status<span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-status"></span></th>
             <th>Date Applied<span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-dateapplied"></span></th>
-            <th>Notes<span class="col-resize-handle" onclick="event.stopPropagation()" data-col="col-notes"></span></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -3998,7 +3998,6 @@ function renderTable(filtered) {
         </select>
       </td>
       <td onclick="event.stopPropagation()" class="date-applied-cell" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);white-space:nowrap;">${c.dateApplied || '-'}</td>
-      <td><div class="notes-text">${c.notes || ''}</div></td>
     `;
     tr.addEventListener('click', () => toggleExpand(tr, c));
     tbody.appendChild(tr);
@@ -4158,7 +4157,7 @@ function toggleExpand(tr, c) {
   expTr.className = 'expanded-row';
   expTr.dataset.forId = c.id;
   expTr.innerHTML = `
-    <td colspan="9">
+    <td colspan="8">
       <div class="expanded-content">
         <div class="expanded-section">
           <h4>Notes</h4>
@@ -4810,9 +4809,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ── COLUMN RESIZE & COLLAPSE ──
 const DEFAULT_COL_WIDTHS = {
-  'col-company': '180px', 'col-dates': '140px', 'col-program': '160px',
-  'col-interest': '130px', 'col-intake': '80px', 'col-type': '110px',
-  'col-status': '160px', 'col-dateapplied': '110px', 'col-notes': '220px'
+  'col-company': '198px', 'col-dates': '154px', 'col-program': '176px',
+  'col-interest': '143px', 'col-intake': '88px', 'col-type': '121px',
+  'col-status': '176px', 'col-dateapplied': '121px'
 };
 const collapsedCols = new Set();
 
