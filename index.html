@@ -2847,7 +2847,7 @@
   }
   .m-card-bottom {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     gap: 8px;
     margin-top: 8px;
@@ -2871,21 +2871,25 @@
   .m-status-badge.status-oa        { border-color: var(--status-oa-border);        color: var(--status-oa-text);        background: var(--status-oa-bg); }
   .m-status-badge.status-interview { border-color: var(--status-interview-border); color: var(--status-interview-text); background: var(--status-interview-bg); }
   .m-status-badge.status-offer     { border-color: var(--status-offer-border);     color: var(--status-offer-text);     background: var(--status-offer-bg); }
+  .m-card-inner {
+    display: flex;
+    gap: 10px;
+  }
+  .m-card-left {
+    flex: 1;
+    min-width: 0;
+  }
+  .m-card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    padding: 2px 0;
+  }
   .m-interest-dot {
     width: 8px; height: 8px;
     border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .m-card-top-right {
-    display: flex;
-    align-items: flex-start;
-    flex-shrink: 0;
-  }
-  .m-card-bottom-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
     flex-shrink: 0;
   }
   .m-card-middle {
@@ -6183,21 +6187,20 @@ function mRender() {
     const intakeDotHtml = `<div class="intake-badge" style="justify-content:center;">${[0,1,2].map(i => `<div class="intake-dot${i < intakeCount ? ' filled' : ''}"></div>`).join('')}</div>`;
     return `
       <div class="m-card" onclick="mOpenSheet(${c.id})">
-        <div class="m-card-top">
-          <div>
+        <div class="m-card-inner">
+          <div class="m-card-left">
             <div class="m-card-sector">${c.sector}</div>
             <div class="m-card-name">${c.company}</div>
+            <div class="m-card-middle">${typeBadge}${prePenuBadge}</div>
+            <div class="m-card-bottom">
+              <div class="m-card-dates">${c.dates || ''}</div>
+              <div class="m-status-badge ${sc}">${badge}</div>
+            </div>
           </div>
-          <div class="m-card-top-right">
+          <div class="m-card-right">
             <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
-          </div>
-        </div>
-        <div class="m-card-middle">${typeBadge}${prePenuBadge}</div>
-        <div class="m-card-bottom">
-          <div class="m-card-dates">${c.dates || ''}</div>
-          <div class="m-card-bottom-right">
+            <div style="flex:1;"></div>
             ${intakeDotHtml}
-            <div class="m-status-badge ${sc}">${badge}</div>
           </div>
         </div>
       </div>`;
