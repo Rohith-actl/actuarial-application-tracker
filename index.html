@@ -6183,14 +6183,12 @@ function mRender() {
             <div class="m-card-sector">${c.sector}</div>
             <div class="m-card-name">${c.company}</div>
           </div>
-          <div class="m-card-top-right">
-            <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
-            ${intakeDotHtml}
-          </div>
+          <div class="m-interest-dot" style="background:${dot}" title="${c.interest||''}"></div>
         </div>
         <div class="m-card-middle">${typeBadge}${prePenuBadge}</div>
         <div class="m-card-bottom">
           <div class="m-card-dates">${c.dates || ''}</div>
+          ${intakeDotHtml}
           <div class="m-status-badge ${sc}">${badge}</div>
         </div>
       </div>`;
