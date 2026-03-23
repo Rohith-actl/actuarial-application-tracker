@@ -1959,10 +1959,16 @@
   }
   .sidebar.open + .sidebar-tab { right: 680px; border-radius: 8px 0 0 8px; }
 
+  .sidebar-nav-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border2);
+  }
   .sidebar-header {
     padding: 12px 28px 10px;
     border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
   }
   .sidebar-title {
     font-family: 'DM Serif Display', serif;
@@ -1980,8 +1986,6 @@
   /* Chapter navigation tabs */
   .sidebar-nav {
     display: flex;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
     overflow-x: auto;
   }
   .sidebar-nav::-webkit-scrollbar { display: none; }
@@ -3488,22 +3492,22 @@
 
 <!-- ── CAREER PLAYBOOK SIDEBAR ── -->
 <aside class="sidebar" id="playbook">
-  <div class="sidebar-header">
-    <div class="sidebar-title">Actuarial Career Playbook</div>
-    <div class="sidebar-desc">Tips & tricks from my research and professionals' advice: a high-performance guide for students targeting top-tier actuarial roles.</div>
-  </div>
-  <div class="sidebar-nav">
-    <button class="sidebar-nav-btn active" onclick="switchChapter(this,'ch-resume')">
-      <span class="nav-icon">📄</span>Resume
-    </button>
-    <button class="sidebar-nav-btn" onclick="switchChapter(this,'ch-career')">
-      <span class="nav-icon">📈</span>Career
-    </button>
-    <button class="sidebar-nav-btn" onclick="switchChapter(this,'ch-interview')">
-      <span class="nav-icon">🎯</span>Interview
-    </button>
-  </div>
   <div class="sidebar-content">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Actuarial Career Playbook</div>
+      <div class="sidebar-desc">Tips &amp; tricks from my research and professionals' advice: a high-performance guide for students targeting top-tier actuarial roles.</div>
+    </div>
+    <div class="sidebar-nav sidebar-nav-sticky">
+      <button class="sidebar-nav-btn active" onclick="switchChapter(this,'ch-resume')">
+        <span class="nav-icon">📄</span>Resume
+      </button>
+      <button class="sidebar-nav-btn" onclick="switchChapter(this,'ch-career')">
+        <span class="nav-icon">📈</span>Career
+      </button>
+      <button class="sidebar-nav-btn" onclick="switchChapter(this,'ch-interview')">
+        <span class="nav-icon">🎯</span>Interview
+      </button>
+    </div>
 
     <!-- ── RESUME CHAPTER ── -->
     <div class="chapter-panel active" id="ch-resume">
