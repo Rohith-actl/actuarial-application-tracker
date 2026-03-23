@@ -1233,10 +1233,12 @@
     color: var(--gold);
     transform: scale(1.15);
   }
-  .review-star:hover {
+  .review-star.hovered {
     color: var(--gold);
-    opacity: 0.75;
-    transform: scale(1.2);
+  }
+  .review-star.hovered-target {
+    color: var(--gold);
+    transform: scale(1.22);
   }
   .review-star.pop {
     animation: starPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
@@ -6820,6 +6822,7 @@ function openReview() {
   document.getElementById('reviewText').value = '';
   selectedReviewStar = 0;
   updateReviewStars(0);
+  initReviewHover();
 }
 
 function closeReview() {
@@ -6829,6 +6832,10 @@ function closeReview() {
 
 function setReviewStar(val) {
   selectedReviewStar = val;
+  // Clear any hover state then apply active
+  document.querySelectorAll('.review-star').forEach(s => {
+    s.classList.remove('hovered', 'hovered-target');
+  });
   updateReviewStars(val);
 }
 
@@ -6840,9 +6847,29 @@ function updateReviewStars(val) {
     s.classList.toggle('active', isActive);
     if (isActive && !wasActive) {
       s.classList.remove('pop');
-      void s.offsetWidth; // reflow to restart animation
+      void s.offsetWidth;
       s.classList.add('pop');
     }
+  });
+}
+
+function initReviewHover() {
+  const stars = document.querySelectorAll('.review-star');
+  stars.forEach(star => {
+    star.addEventListener('mouseenter', function() {
+      const hoverVal = parseInt(this.dataset.val);
+      stars.forEach(s => {
+        const sv = parseInt(s.dataset.val);
+        s.classList.remove('hovered', 'hovered-target', 'active');
+        if (sv < hoverVal) s.classList.add('hovered');
+        else if (sv === hoverVal) s.classList.add('hovered-target');
+      });
+    });
+    star.addEventListener('mouseleave', function() {
+      // Restore based on current selected rating
+      stars.forEach(s => s.classList.remove('hovered', 'hovered-target'));
+      updateReviewStars(selectedReviewStar);
+    });
   });
 }
 
