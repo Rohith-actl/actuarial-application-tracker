@@ -133,4 +133,21 @@ No obligation whatsoever. Every bit helps.
 
 ---
 
+## Licence & Copyright
+
+© 2026 Rohith Narayanan. All rights reserved.
+
+This project is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+You may share this tracker freely. You may **not**:
+- Use it commercially
+- Redistribute a modified version as your own
+- Remove attribution
+
+The curated company data, design, and code are the intellectual property of Rohith Narayanan. Proof of authorship is established by the commit history of this repository.
+
+If you find this useful and want to support its continued development: [ko-fi.com/rohithactltracker](https://ko-fi.com/rohithactltracker)
+
+---
+
 *Built with ❤️ by Rohith — a student who got tired of spreadsheets.*
