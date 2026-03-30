@@ -519,7 +519,8 @@
     font-family: 'DM Mono', monospace;
     font-size: 12px;
     color: var(--text-muted);
-    white-space: nowrap;
+    white-space: normal;
+    line-height: 1.5;
   }
   .dates.email-based { color: var(--text-dim); font-style: italic; }
 
@@ -3466,7 +3467,7 @@
       </span>
       <span class="logo-sub">Australia · Rohith Narayanan</span>
     </a>
-    <span class="logo-users">👥 300+ students</span>
+    <span class="logo-users">👥 400+ students</span>
   </div>
 </header>
 
@@ -3980,6 +3981,7 @@ const COMPANIES = [
   { sector:"Consulting", company:"EY", dates:"Feb – Mar", program:"Actuarial Consulting", interest:"Very High", intake:"Large", type:"Grad + Intern", prePenu:"Game Changer; Careers Compass", link:"https://www.ey.com/en_au/careers", notes:"Big 4 actuarial consulting; broad exposure to super, life, GI, and risk clients; strong mentoring program.", status:"" },
   { sector:"Consulting", company:"KPMG", dates:"Feb – Apr", program:"Actuarial Consulting", interest:"Very High", intake:"Large", type:"Grad + Intern", prePenu:"Game Changer; Careers Compass", link:"https://kpmg.com/au/en/home/careers.html", notes:"Actuarial consulting; focus on life insurance, GI, and super funds; internships include client-facing experience.", status:"" },
   { sector:"Consulting", company:"PwC", dates:"Feb – Mar", program:"Actuarial Consulting", interest:"Very High", intake:"Large", type:"Grad + Intern", prePenu:"Actuarial Trainee Program", link:"https://www.pwc.com.au/careers", notes:"Actuarial consulting; exposure to insurance and super clients; rotational grads get variety of work.", status:"" },
+  { sector:"Consulting", company:"Mercer", dates:"Feb – Mar (Grad)<br>Jul – Aug (Intern)", program:"Actuarial Consulting", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.mercer.com/en-au/careers/", notes:"Well-regarded actuarial consulting firm with strong super, life, and wealth focus. Graduate program runs Feb-Mar intake; internship program separately opens Jul-Aug. Smaller intake than Big 4 but highly regarded.", status:"" },
 
   // Investment / Asset / Hedge
   { sector:"Investment / Asset", company:"Vanguard", dates:"Feb – Mar", program:"Investment Analytics", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.vanguardjobs.com/home-aus/?source=Career_Website", notes:"Investment analytics, risk modelling; actuarial exposure mainly through investment and portfolio risk.", status:"" },
@@ -6137,7 +6139,7 @@ function closeChangelog() {
         <div class="m-logo-sub">Australia · RN</div>
       </div>
     </div>
-    <span class="m-users-badge">👥 300+<br>students</span>
+    <span class="m-users-badge">👥 400+<br>students</span>
     <div class="m-header-right">
       <button class="m-playbook-btn" onclick="mOpenPlaybook()">Career<br>Playbook</button>
       <button class="m-hamburger" id="mHamburger" onclick="mToggleMenu()" aria-label="Menu">
@@ -6685,7 +6687,7 @@ window.addEventListener('resize', () => {
         </div>
         <div class="m-help-item">
           <div class="m-help-term">Full features on desktop</div>
-          <div class="m-help-desc">The phone version shows a summary view. Open the tracker on a laptop or desktop for the full experience including inline editing, CSV import/export, and advanced filters. The Career Playbook is also available on mobile via the gold button in the header.</div>
+          <div class="m-help-desc">The phone version shows a summary view. Open the tracker on a laptop or desktop for the full experience including inline editing, CSV import/export, column sorting, and advanced filters. The Career Playbook is also available on mobile via the gold button in the header.</div>
         </div>
       </div>
 
