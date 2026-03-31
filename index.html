@@ -676,6 +676,9 @@
     padding: 0;
     background: var(--surface);
     border-bottom: 1px solid var(--border2);
+    white-space: normal;
+    max-width: none;
+    overflow: visible;
   }
   .expanded-content {
     padding: 16px 20px 20px 32px;
@@ -695,6 +698,9 @@
     font-size: 13px;
     color: var(--text-muted);
     line-height: 1.55;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   .expanded-section a {
     color: var(--accent);
@@ -3963,6 +3969,7 @@ const COMPANIES = [
   { sector:"Reinsurance", company:"Gen Re", dates:"Feb – Mar", program:"Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.genre.com/us/careers", notes:"Specialized in reinsurance; small team offers hands-on experience; exposure to pricing, reserving, and analytics.", status:"" },
   { sector:"Reinsurance", company:"Hannover Re", dates:"Feb – Mar", program:"Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.hannover-re.com/en/career/entry-level/students/internship/", notes:"German-based reinsurance; actuarial roles focus on pricing, modelling, and risk management; global exposure possible.", status:"" },
   { sector:"Reinsurance", company:"Everest Re", dates:"Feb – Apr", program:"Reinsurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.everestre.com/careers", notes:"US-based reinsurer with Australian presence; actuarial work across property, casualty, and specialty reinsurance; small intake.", status:"" },
+  { sector:"Reinsurance", company:"Pacific Life Re", dates:"Jun – Aug", program:"Life Reinsurance / Actuarial", interest:"Low–Med", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.pacificlifere.com/home/careers/overview/early-careers.html", notes:"Global life reinsurer with a Sydney office; recruits 3–4 placement (intern) students each year for the summer period; also offers ad-hoc graduate roles. Partners with Macquarie, UNSW, and ANU actuarial societies — opportunities advertised there first. Strong focus on pricing, valuation, and modelling across protection and longevity products.", status:"" },
 
   // Super / Pensions
   { sector:"Super / Pensions", company:"AustralianSuper", dates:"Feb – Mar", program:"Investments / ALM", interest:"Very High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.australiansuper.com/careers", notes:"Largest super fund in Australia; actuarial roles focus on ALM, investment strategy, and longevity modelling.", status:"" },
@@ -4063,6 +4070,7 @@ const COMPANIES = [
   { sector:"Government", company:"Transport Accident Commission", dates:"Feb – Mar", program:"Government / Insurance", interest:"Medium", intake:"Medium", type:"Intern", prePenu:"", link:"https://www.tac.vic.gov.au/about-the-tac/careers", notes:"VIC government insurer; actuarial focus on pricing and claims.", status:"" },
   { sector:"Government", company:"SafeWork NSW", dates:"Feb – Mar", program:"Government / Insurance", interest:"Medium", intake:"Medium", type:"", prePenu:"", link:"https://www.safework.nsw.gov.au/safework-nsw-careers/become-a-safework-nsw-inspector", notes:"Workers compensation; actuarial roles in risk and claims analysis.", status:"" },
   { sector:"Government", company:"Medicare", dates:"Feb – Mar", program:"Government / Health", interest:"Medium", intake:"Medium", type:"", prePenu:"", link:"https://www.servicesaustralia.gov.au/careers", notes:"Public health schemes; actuarial roles mainly policy modelling.", status:"" },
+  { sector:"Government", company:"NDIA", dates:"May – Jun", program:"Government / Actuarial", interest:"Medium", intake:"Medium", type:"Grad", prePenu:"", link:"https://www.ndis.gov.au/about-us/careers-ndia/pathways-agency/graduate-program", notes:"National Disability Insurance Agency; implements the NDIS, one of Australia's largest social reforms. Grad program explicitly welcomes actuarial graduates; 12-month structured program integrated with the APS Graduate Development Program. Applications typically open late May and close mid-June each year.", status:"" },
 ];
 
 // State
