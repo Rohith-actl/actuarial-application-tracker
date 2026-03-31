@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Actuarial Applications Tracker · Australia</title>
+<title>Actuarial Application Tracker</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230e0f13'/><text x='16' y='23' font-family='Georgia,serif' font-size='16' font-weight='bold' fill='%23e8b84b' text-anchor='middle'>RN</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
@@ -3946,12 +3946,23 @@ const COMPANIES = [
   { sector:"General", company:"Auto & General", dates:"Email Based", program:"Pricing", interest:"Low–Med", intake:"Small", type:"", prePenu:"", link:"https://www.autogeneral.com.au/careers", notes:"Niche GI insurer; actuarial team involved in pricing, claims, and analytics; ideal for students wanting small team experience.", status:"" },
   { sector:"General", company:"Guild Insurance", dates:"Email Based", program:"Actuarial", interest:"Low–Med", intake:"Small", type:"", prePenu:"", link:"https://www.guildgroup.com.au/careers", notes:"Focus on professional indemnity; small actuarial team, high responsibility early in career.", status:"" },
   { sector:"General", company:"Avant Mutual", dates:"Email Based", program:"Actuarial", interest:"Low–Med", intake:"Small", type:"", prePenu:"", link:"https://www.avant.org.au/careers", notes:"Medical indemnity insurer; small, specialized actuarial team; exposure to underwriting and reserving.", status:"" },
+  { sector:"General", company:"Liberty Specialty Markets", dates:"Feb – Apr", program:"Insurance / Risk", interest:"Low–Med", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.libertyspecialtymarkets.com/en-gb/working-at-liberty", notes:"Global specialty insurer; Australian office is small but offers hands-on exposure to commercial and specialty lines; some intern opportunities linked to global programs.", status:"" },
+  { sector:"General", company:"Tokio Marine Australia", dates:"Feb – Apr", program:"General Insurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.tokiomarine.com/au/en/about-us/careers.html", notes:"Part of one of Japan's largest insurance groups; small Australian team; actuarial roles in GI pricing and reserving; limited graduate intake.", status:"" },
+
+  { sector:"General", company:"Arch Insurance Australia", dates:"Feb – Apr", program:"Insurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.archgroup.com/careers", notes:"Specialty insurer; small Australian actuarial team; niche focus on specialty and casualty lines.", status:"" },
+  { sector:"General", company:"Berkshire Hathaway Specialty Insurance", dates:"Feb – Apr", program:"Insurance", interest:"Low–Med", intake:"Small", type:"Grad", prePenu:"", link:"https://www.bhspecialty.com/careers/", notes:"Backed by Berkshire Hathaway; focuses on commercial lines; small but reputable team; limited graduate intake.", status:"" },
+  { sector:"General", company:"Zurich Cover-More", dates:"Feb – Apr", program:"Travel Insurance", interest:"Low", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.covermore.com/au/about/careers", notes:"Travel and assistance insurance; part of Zurich Group; niche actuarial work in travel risk and pricing; smaller team than parent.", status:"" },
+  { sector:"General", company:"RACQ Insurance", dates:"Feb – Apr", program:"General Insurance", interest:"Low–Med", intake:"Small", type:"Grad", prePenu:"", link:"https://www.racq.com.au/about/careers", notes:"Queensland-based mutual insurer; actuarial exposure in GI pricing and claims; smaller team with broader early responsibility.", status:"" },
+  { sector:"General", company:"RAA Insurance", dates:"Feb – Apr", program:"General Insurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.raa.com.au/about/careers", notes:"South Australia-based mutual; small actuarial team; good early responsibility for motivated graduates.", status:"" },
+  { sector:"General", company:"RAC Insurance (WA)", dates:"Feb – Apr", program:"General Insurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.rac.com.au/about-rac/careers", notes:"WA-based mutual insurer; small actuarial and pricing team; good for graduates seeking hands-on exposure without the big company environment.", status:"" },
+  { sector:"General", company:"NTI Limited", dates:"Feb – Apr", program:"Transport Insurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.nti.com.au/about-nti/careers", notes:"Specialist heavy vehicle and transport insurer; niche actuarial work in a unique book of business; small team, early responsibility.", status:"" },
 
   // Reinsurance
   { sector:"Reinsurance", company:"Munich Re", dates:"Feb – Mar", program:"Pricing / Capital", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.munichre.com/careers", notes:"Leading reinsurance company; global exposure; strong focus on pricing and capital modelling; ideal for later-career international experience.", status:"" },
-  { sector:"Reinsurance", company:"Swiss Re", dates:"Feb – Mar", program:"Advanced Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"Yes – open to pre-penultimate", link:"https://careers.swissre.com", notes:"Global reinsurance giant; actuarial interns work on capital models, catastrophe modelling, and reserving.", status:"" },
+  { sector:"Reinsurance", company:"Swiss Re", dates:"Feb – Mar", program:"Advanced Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"Apprenticeship Program", link:"https://careers.swissre.com", notes:"Global reinsurance giant; summer internship available to penultimate-year students; actuarial interns work on capital models, catastrophe modelling, and reserving.", status:"" },
   { sector:"Reinsurance", company:"Gen Re", dates:"Feb – Mar", program:"Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.genre.com/us/careers", notes:"Specialized in reinsurance; small team offers hands-on experience; exposure to pricing, reserving, and analytics.", status:"" },
   { sector:"Reinsurance", company:"Hannover Re", dates:"Feb – Mar", program:"Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.hannover-re.com/en/career/entry-level/students/internship/", notes:"German-based reinsurance; actuarial roles focus on pricing, modelling, and risk management; global exposure possible.", status:"" },
+  { sector:"Reinsurance", company:"Everest Re", dates:"Feb – Apr", program:"Reinsurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.everestre.com/careers", notes:"US-based reinsurer with Australian presence; actuarial work across property, casualty, and specialty reinsurance; small intake.", status:"" },
 
   // Super / Pensions
   { sector:"Super / Pensions", company:"AustralianSuper", dates:"Feb – Mar", program:"Investments / ALM", interest:"Very High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.australiansuper.com/careers", notes:"Largest super fund in Australia; actuarial roles focus on ALM, investment strategy, and longevity modelling.", status:"" },
@@ -3959,6 +3970,11 @@ const COMPANIES = [
   { sector:"Super / Pensions", company:"Aware Super", dates:"Feb – Mar", program:"Investments", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://aware.com.au/careers", notes:"Large super fund; actuarial work includes investment strategy, modelling, and risk analysis; known for structured grad program.", status:"" },
   { sector:"Super / Pensions", company:"UniSuper", dates:"Feb – Mar", program:"Investments", interest:"High", intake:"Small", type:"", prePenu:"", link:"https://www.unisuper.com.au/about-us/careers", notes:"Fund for university staff; actuarial roles focus on ALM and portfolio risk; smaller team.", status:"" },
   { sector:"Super / Pensions", company:"Hostplus", dates:"Feb – Mar", program:"Investments", interest:"Medium", intake:"Small", type:"", prePenu:"", link:"https://hostplus.com.au/about-us/careers", notes:"Industry super fund; actuarial team works closely with investments and analytics; smaller grad program.", status:"" },
+  { sector:"Super / Pensions", company:"Rest Super", dates:"Feb – Apr", program:"Superannuation", interest:"Medium", intake:"Small", type:"Grad", prePenu:"", link:"https://www.rest.com.au/about-rest/careers", notes:"Large industry fund with over 2 million members; actuarial roles in member analytics, ALM, and investment risk; growing quantitative team.", status:"" },
+  { sector:"Super / Pensions", company:"Cbus", dates:"Feb – Apr", program:"Superannuation", interest:"Medium", intake:"Small", type:"Grad", prePenu:"", link:"https://www.cbussuper.com.au/about-us/careers", notes:"Construction industry super fund; actuarial work in investment risk and member analytics; smaller team with good exposure.", status:"" },
+  { sector:"Super / Pensions", company:"HESTA", dates:"Feb – Apr", program:"Superannuation", interest:"Medium", intake:"Small", type:"Grad", prePenu:"", link:"https://www.hesta.com.au/about-us/careers", notes:"Health and community sector super fund; actuarial exposure in ALM and investment modelling; smaller intake.", status:"" },
+  { sector:"Super / Pensions", company:"Telstra Super", dates:"Feb – Apr", program:"Superannuation", interest:"Low–Med", intake:"Small", type:"Grad", prePenu:"", link:"https://www.telstrasuper.com.au/about-us/careers", notes:"Corporate super fund for Telstra employees and public; small actuarial team; good early responsibility and exposure to ALM and member analytics.", status:"" },
+  { sector:"Super / Pensions", company:"Colonial First State", dates:"Feb – Apr", program:"Wealth / Investments", interest:"Medium", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.cfs.com.au/about-cfs/careers.html", notes:"Major wealth and investments platform; actuarial and analytics roles span superannuation and retirement products; structured grad program.", status:"" },
 
   // Banking / Financial
   { sector:"Banking / Financial", company:"Commonwealth Bank", dates:"Feb – Mar", program:"Risk / Analytics", interest:"Very High", intake:"Large", type:"Grad + Intern", prePenu:"", link:"https://www.commbank.com.au/careers", notes:"Actuarial and analytics roles mainly in risk management and credit modelling; large teams allow specialization.", status:"" },
@@ -3982,6 +3998,13 @@ const COMPANIES = [
   { sector:"Consulting", company:"KPMG", dates:"Feb – Apr", program:"Actuarial Consulting", interest:"Very High", intake:"Large", type:"Grad + Intern", prePenu:"Game Changer; Careers Compass", link:"https://kpmg.com/au/en/home/careers.html", notes:"Actuarial consulting; focus on life insurance, GI, and super funds; internships include client-facing experience.", status:"" },
   { sector:"Consulting", company:"PwC", dates:"Feb – Mar", program:"Actuarial Consulting", interest:"Very High", intake:"Large", type:"Grad + Intern", prePenu:"Actuarial Trainee Program", link:"https://www.pwc.com.au/careers", notes:"Actuarial consulting; exposure to insurance and super clients; rotational grads get variety of work.", status:"" },
   { sector:"Consulting", company:"Mercer", dates:"Feb – Mar (Grad)<br>Jul – Aug (Intern)", program:"Actuarial Consulting", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.mercer.com/en-au/careers/", notes:"Well-regarded actuarial consulting firm with strong super, life, and wealth focus. Graduate program runs Feb-Mar intake; internship program separately opens Jul-Aug. Smaller intake than Big 4 but highly regarded.", status:"" },
+  { sector:"Consulting", company:"Finity Consulting", dates:"Feb – Mar", program:"Actuarial Consulting", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.finity.com.au/careers/", notes:"One of Australia's most respected independent actuarial consultancies; strong GI and health focus; 10-week paid internship for penultimate-year students, with a pipeline to graduate offers.", status:"" },
+  { sector:"Consulting", company:"Taylor Fry", dates:"Feb – Mar", program:"Actuarial Consulting", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.taylorfry.com.au/careers/", notes:"Boutique actuarial and analytics consultancy; known for innovative work across insurance, government, and health; grads gain broad exposure quickly.", status:"" },
+  { sector:"Consulting", company:"Aon", dates:"Feb – Mar", program:"Risk / Actuarial Consulting", interest:"Very High", intake:"Large", type:"Grad + Intern", prePenu:"", link:"https://www.aon.com/en-au/careers", notes:"Global risk advisory giant; actuarial consulting across super, insurance, and broking; one of the largest actuarial employers in Australia.", status:"" },
+  { sector:"Consulting", company:"Willis Towers Watson", dates:"Feb – Mar", program:"Actuarial Consulting", interest:"Very High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.wtwco.com/en-au/careers", notes:"Global consulting firm; 8-week intern program designed for penultimate-year students; grad program covers life, GI, health, and super clients.", status:"" },
+  { sector:"Consulting", company:"Accenture", dates:"Feb – Mar", program:"Consulting / Analytics", interest:"Very High", intake:"Large", type:"Grad + Intern", prePenu:"", link:"https://www.accenture.com/au-en/careers", notes:"Global consulting firm; data and analytics roles suit actuarial students; large intake with rotational exposure across insurance, banking, and technology clients.", status:"" },
+  { sector:"Consulting", company:"Capgemini", dates:"Feb – Mar", program:"Consulting / Data", interest:"Medium", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.capgemini.com/au-en/careers/", notes:"Global technology and consulting firm; actuarial students often placed in financial services analytics; broad exposure to data modelling and transformation projects.", status:"" },
+
 
   // Investment / Asset / Hedge
   { sector:"Investment / Asset", company:"Vanguard", dates:"Feb – Mar", program:"Investment Analytics", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.vanguardjobs.com/home-aus/?source=Career_Website", notes:"Investment analytics, risk modelling; actuarial exposure mainly through investment and portfolio risk.", status:"" },
@@ -4001,15 +4024,20 @@ const COMPANIES = [
 
   // Data / Tech
   { sector:"Data / Tech", company:"Quantium", dates:"Feb – Mar", program:"Data / Analytics", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://quantium.com/careers/", notes:"Data analytics company; actuarial grads may work on pricing and analytics projects.", status:"" },
+  { sector:"Data / Tech", company:"Quantium Health", dates:"Feb – Mar", program:"Health Analytics", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://quantium.com/careers/", notes:"Health-focused analytics arm of Quantium; actuarial students work on health data, claims analytics, and insurer/government client projects.", status:"" },
+  { sector:"Data / Tech", company:"Guidewire Software", dates:"Rolling", program:"Insurance Software", interest:"Low–Med", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.guidewire.com/careers", notes:"Leading insurance platform vendor; roles for actuarial students in implementation consulting and analytics; exposure to GI systems and carrier clients.", status:"" },
   { sector:"Data / Tech", company:"Illion", dates:"Feb – Mar", program:"Credit Analytics", interest:"Medium", intake:"Small", type:"", prePenu:"", link:"https://www.illion.com.au/careers", notes:"Credit reporting and analytics; small actuarial team; good exposure to consumer risk modelling.", status:"" },
 
   // Life
+  { sector:"Life", company:"Resolution Life Australasia", dates:"Feb – Apr", program:"Life Insurance", interest:"Low–Med", intake:"Small", type:"Grad", prePenu:"", link:"https://www.resolutionlife.com/au/careers/", notes:"Specialist closed-book life insurer; actuarial work centred on valuation, modelling, and run-off management; small team with technical depth.", status:"" },
+  { sector:"Life", company:"MLC Life Insurance", dates:"Feb – Mar", program:"Life Insurance", interest:"Medium", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://mlcinsurance.com.au/careers", notes:"One of Australia's larger standalone life insurers; structured grad and intern programs; strong exposure to pricing, valuation, and product development.", status:"" },
   { sector:"Life", company:"TAL", dates:"Feb – Mar", program:"Life Actuarial", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.tal.com.au/about-us/careers/explore-jobs", notes:"Major life insurer; strong pricing and valuation focus.", status:"" },
   { sector:"Life", company:"AIA Australia", dates:"Feb – Mar", program:"Life / Valuation", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.aia.com.au/en/about-aia/careers", notes:"Global life insurer; rotational graduate program in actuarial.", status:"" },
   { sector:"Life", company:"Zurich Australia", dates:"Feb – Mar", program:"Life / Investments", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.zurich.com.au/careers", notes:"Part of global Zurich Group; exposure to life pricing, risk & capital modelling.", status:"" },
   { sector:"Life", company:"MetLife Australia", dates:"Feb – Mar", program:"Life Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.metlifecareers.com/en_US/ml/SearchJobs?12310=116520&listFilterMode=1", notes:"US-owned life insurer; small Australian team; hands-on experience.", status:"" },
   { sector:"Life", company:"AMP", dates:"Feb – Mar", program:"Super / Life", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.amp.com.au/careers", notes:"Focus on superannuation and life insurance products; structured grad program.", status:"" },
   { sector:"Life", company:"Acenda", dates:"Feb – Mar", program:"Valuation", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://acenda.com.au/careers", notes:"Specialist life insurance consulting; exposure to technical valuation work.", status:"" },
+  { sector:"Life", company:"ClearView Wealth", dates:"Email Based", program:"Life / Wealth", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.clearview.com.au/careers", notes:"Boutique life insurer; actuarial roles in pricing and valuation; apply directly via email as roles aren't always advertised publicly.", status:"" },
   { sector:"Life", company:"Prudential", dates:"Feb – Mar", program:"Life / Investments", interest:"Low–Med", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.prudential.com.au/careers", notes:"Global insurer; mainly senior actuarial roles, some internships.", status:"" },
   { sector:"Life", company:"MassMutual", dates:"Feb – Mar", program:"Life / Investments", interest:"Low", intake:"Small", type:"Intern", prePenu:"", link:"https://www.massmutual.com/careers", notes:"US insurer; limited AU operations.", status:"" },
   { sector:"Life", company:"New York Life", dates:"Feb – Mar", program:"Life / Investments", interest:"Low", intake:"Small", type:"", prePenu:"", link:"https://www.newyorklife.com/careers", notes:"US life insurer; AU team small, limited graduate intake.", status:"" },
@@ -4027,6 +4055,10 @@ const COMPANIES = [
   { sector:"Health", company:"Healthscope", dates:"Feb – Mar", program:"Healthcare Analytics", interest:"Low–Med", intake:"Small", type:"", prePenu:"", link:"https://www.healthscope.com.au/careers", notes:"Hospital operator; small analytics team, some actuarial-style modelling.", status:"" },
 
   // Government
+  // Government Regulators
+  { sector:"Government", company:"APRA", dates:"Feb – Mar", program:"Government / Regulation", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.apra.gov.au/careers-at-apra", notes:"Australian Prudential Regulation Authority; actuarial graduates work on capital frameworks, risk assessment, and regulatory analysis across banking, insurance, and super. Intern program open from 2nd year onward.", status:"" },
+  { sector:"Government", company:"ASIC", dates:"Feb – Mar", program:"Government / Regulation", interest:"High", intake:"Medium", type:"Grad + Intern", prePenu:"", link:"https://www.asic.gov.au/about-asic/careers-at-asic/", notes:"Australian Securities and Investments Commission; grad and intern programs available; actuarial-type work in financial regulation, market supervision, and data analytics.", status:"" },
+  { sector:"Government", company:"ABS", dates:"Feb – Mar", program:"Statistics / Data", interest:"High", intake:"Medium", type:"Grad", prePenu:"", link:"https://www.abs.gov.au/careers", notes:"Australian Bureau of Statistics; data and statistical modelling roles; graduate program well-structured for quantitative students.", status:"" },
   { sector:"Government", company:"ICare NSW", dates:"Feb – Mar", program:"Government / Insurance", interest:"Medium", intake:"Medium", type:"Grad", prePenu:"", link:"https://www.icare.nsw.gov.au/careers", notes:"Public insurer; actuarial roles in risk, claims, and government schemes.", status:"" },
   { sector:"Government", company:"Transport Accident Commission", dates:"Feb – Mar", program:"Government / Insurance", interest:"Medium", intake:"Medium", type:"Intern", prePenu:"", link:"https://www.tac.vic.gov.au/about-the-tac/careers", notes:"VIC government insurer; actuarial focus on pricing and claims.", status:"" },
   { sector:"Government", company:"SafeWork NSW", dates:"Feb – Mar", program:"Government / Insurance", interest:"Medium", intake:"Medium", type:"", prePenu:"", link:"https://www.safework.nsw.gov.au/safework-nsw-careers/become-a-safework-nsw-inspector", notes:"Workers compensation; actuarial roles in risk and claims analysis.", status:"" },
@@ -4880,6 +4912,7 @@ function openFeedback() {
   document.getElementById('feedbackError').style.display = 'none';
   document.getElementById('feedbackDetails').value = '';
   document.getElementById('feedbackCompany').value = '';
+  if (document.getElementById('feedbackEmail')) document.getElementById('feedbackEmail').value = '';
   selectedFeedbackType = '';
   selectedFeedbackPlatform = '';
   document.querySelectorAll('.feedback-type-btn').forEach(b => b.classList.remove('selected'));
@@ -4914,6 +4947,7 @@ function selectFeedbackPlatform(btn, platform) {
 function submitFeedback() {
   const details  = document.getElementById('feedbackDetails').value.trim();
   const company  = document.getElementById('feedbackCompany').value.trim();
+  const email    = document.getElementById('feedbackEmail') ? document.getElementById('feedbackEmail').value.trim() : '';
   const errEl    = document.getElementById('feedbackError');
 
   errEl.style.display = 'none';
@@ -4935,6 +4969,7 @@ function submitFeedback() {
     platform: selectedFeedbackPlatform,
     company: company || '--',
     details,
+    reply_to: email || '--',
     time: new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' })
   });
 
@@ -5868,6 +5903,10 @@ document.addEventListener('selectstart', function(e) {
         <div class="form-field" style="grid-column:1/-1;">
           <label>Details <span class="required-star">*</span></label>
           <textarea id="feedbackDetails" class="form-textarea" style="min-height:100px;" placeholder="Please be as specific as possible: what's wrong, what should it say, what would you like to see? The more detail, the faster we can act on it."></textarea>
+        </div>
+        <div class="form-field" style="grid-column:1/-1;">
+          <label style="display:flex;align-items:center;gap:8px;">Your email <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);font-weight:400;letter-spacing:0.3px;">optional · for receiving a reply</span></label>
+          <input type="email" id="feedbackEmail" class="form-input" placeholder="you@example.com">
         </div>
       </div>
 
