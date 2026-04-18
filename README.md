@@ -1,12 +1,12 @@
 # 🇦🇺 Actuarial Tracker — Australia
 
-> A free, all-in-one graduate & internship application tracker built specifically for actuarial students across Australia.
+> A free, all-in-one graduate & internship application tracker used by over 600 actuarial students across Australia.
 
 ---
 
 ## What is this?
 
-Breaking into the actuarial profession is competitive. With 75+ companies across every major sector — general insurance, life, health, superannuation, banking, consulting, reinsurance, investments, and government — knowing where to apply, when, and how to stand out is genuinely hard.
+Breaking into the actuarial profession is competitive. With 100+ companies across every major sector — general insurance, life, health, superannuation, banking, consulting, reinsurance, investments, and government — knowing where to apply, when, and how to stand out is genuinely hard.
 
 This tracker was built to solve that. It's a single, beautifully designed web app that gives you everything in one place: curated company data, application tracking, career advice from professionals, and a clean interface you'll actually want to use.
 
@@ -16,7 +16,7 @@ It's free. It's private. And it's built by a student, for students.
 
 ## Features
 
-### 📋 Over 75 Companies, Fully Curated
+### 📋 Over 100 Companies, Fully Curated
 Every major actuarial employer in Australia, organised by sector. Each entry includes:
 - Application open/close dates
 - Programme type (pricing, valuation, consulting, risk, etc.)
@@ -95,18 +95,6 @@ The tracker includes a fully separate, purpose-built mobile interface — not ju
 | Investment & Asset | BlackRock, Vanguard, Citadel, Two Sigma |
 | Data & Tech | Quantium, Illion |
 | Government | ICare NSW, TAC, Medicare |
-
----
-
-## What's New (Major Updates)
-
-- **📱 Mobile version** — a fully separate phone interface with cards, pipeline summary, status tracking, add/delete companies, and a hamburger menu
-- **📅 Date Applied column** — auto-stamps the date when you mark a company as Applied
-- **🗑️ Delete any company** — remove built-in or custom companies from your view; restore via Reset All
-- **📥 CSV import / export / template** — bulk manage your tracker data via spreadsheet
-- **✏️ Inline field editing** — edit any field directly in the table; changes are saved and marked
-- **🔗 Column resize & collapse** — drag borders to resize, click to collapse columns you don't need
-- **💰 Support / Donate** — Ko-fi integration for those who want to support development
 
 ---
 
