@@ -1089,6 +1089,49 @@
 
   /* ── DONATE MODAL ── */
   .donate-modal { max-width: 480px; }
+
+  /* ── REMINDER MODAL ── */
+  .reminder-modal { max-width: 460px; }
+  .reminder-body { padding: 4px 0 8px; }
+  .reminder-icon { font-size: 32px; margin-bottom: 12px; }
+  .reminder-lead {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .reminder-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .reminder-reasons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .reminder-reason {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .rr-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .reminder-footer {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
   .donate-hero {
     text-align: center;
     padding: 8px 0 20px;
@@ -2513,7 +2556,7 @@
     .layout, .watermark, .col-resize-hint,
     .screen-toast { display: none !important; }
     /* Hide all modals except feedback, donate, add company which are usable on mobile */
-    .modal-overlay:not(#feedbackModal):not(#donateModal):not(#addModal):not(#reviewModal), #loginOverlay { display: none !important; }
+    .modal-overlay:not(#feedbackModal):not(#donateModal):not(#addModal):not(#reviewModal):not(#reminderModal), #loginOverlay { display: none !important; }
 
     /* Show mobile shell */
     #mobileApp { display: flex !important; }
@@ -3544,7 +3587,7 @@
         <div class="chapter-section-title"><span class="cs-icon">🎯</span> Core Principle</div>
         <div class="insight-card highlight">
           <div class="card-label">The Goal</div>
-          Most candidates optimise for <strong>"better"</strong>: higher WAM, more exams, more societies. Top candidates optimise for <strong>signal</strong>.<br><br>
+          Most candidates optimise for <strong>"better"</strong>: higher GPA, more exams, more societies. Top candidates optimise for <strong>signal</strong>.<br><br>
           Be instantly recognisable as: high potential · high initiative · commercially aware · inexpensive to train.
         </div>
       </div>
@@ -3554,7 +3597,7 @@
         <table class="sb-table">
           <thead><tr><th>Category</th><th>How to Prove It</th></tr></thead>
           <tbody>
-            <tr><td>Academic Ability</td><td>80+ WAM, actuarial progress</td></tr>
+            <tr><td>Academic Ability</td><td>GPA 80%+, actuarial progress</td></tr>
             <tr><td>Technical Skills</td><td>Excel, SQL, R: via real projects</td></tr>
             <tr><td>Commercial Awareness</td><td>Case comps, projects, insights</td></tr>
             <tr><td>Communication</td><td>Leadership, presentations</td></tr>
@@ -3631,7 +3674,7 @@
         <div class="chapter-section-title"><span class="cs-icon">📶</span> The 3 Layers of Growth</div>
         <div class="insight-card">
           <div class="card-label">Layer 1 · Entry (University → Grad)</div>
-          <span class="sb-tag blue">80+ WAM</span>
+          <span class="sb-tag blue">GPA 80%+</span>
           <span class="sb-tag blue">Excel · SQL · R</span>
           <span class="sb-tag blue">1–2 standout projects</span>
           <span class="sb-tag blue">Networking</span>
@@ -3946,6 +3989,7 @@ const COMPANIES = [
   { sector:"General", company:"Chubb", dates:"Feb – Mar", program:"Risk / Analytics", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"Graduate Development Program", link:"https://careers.chubb.com", notes:"Focus on specialty and commercial lines; small actuarial team, so graduates gain hands-on experience quickly.", status:"" },
   { sector:"General", company:"AXA", dates:"Feb – Mar", program:"Risk / Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://careers.axa.com/careers-home/?lang=en-US", notes:"Global insurer; actuarial roles include pricing, reserving, and analytics; team is smaller than Big 4 firms.", status:"" },
   { sector:"General", company:"HDI Global", dates:"Feb – Mar", program:"Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.hdi.global/en-au/about-us/career-at-hdi/career/?locale=en-au&query=&pagelanguage=en-au", notes:"Niche in commercial insurance; strong exposure to reinsurance; ideal for students wanting technical GI experience.", status:"" },
+  { sector:"General", company:"SCOR", dates:"Feb – Mar", program:"Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.scor.com/en/careers", notes:"Reinsurance company; actuarial work includes risk modelling and capital management; good international opportunities.", status:"" },
   { sector:"General", company:"Hollard Insurance", dates:"Mar – Apr", program:"Pricing", interest:"Low–Med", intake:"Small", type:"Grad", prePenu:"", link:"https://www.hollard.com.au/about-hollard/careers-at-hollard", notes:"Australian-owned; smaller team, more hands-on; fast exposure to pricing and claims modelling.", status:"" },
   { sector:"General", company:"Youi", dates:"Mar – Apr", program:"Pricing", interest:"Low–Med", intake:"Small", type:"Grad", prePenu:"", link:"https://careers.youi.com.au", notes:"Customer-focused insurer; innovative product pricing; smaller actuarial team allows broad exposure.", status:"" },
   { sector:"General", company:"Auto & General", dates:"Email Based", program:"Pricing", interest:"Low–Med", intake:"Small", type:"", prePenu:"", link:"https://www.autogeneral.com.au/careers", notes:"Niche GI insurer; actuarial team involved in pricing, claims, and analytics; ideal for students wanting small team experience.", status:"" },
@@ -3953,6 +3997,7 @@ const COMPANIES = [
   { sector:"General", company:"Avant Mutual", dates:"Email Based", program:"Actuarial", interest:"Low–Med", intake:"Small", type:"", prePenu:"", link:"https://www.avant.org.au/careers", notes:"Medical indemnity insurer; small, specialized actuarial team; exposure to underwriting and reserving.", status:"" },
   { sector:"General", company:"Liberty Specialty Markets", dates:"Feb – Apr", program:"Insurance / Risk", interest:"Low–Med", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.libertyspecialtymarkets.com/en-gb/working-at-liberty", notes:"Global specialty insurer; Australian office is small but offers hands-on exposure to commercial and specialty lines; some intern opportunities linked to global programs.", status:"" },
   { sector:"General", company:"Tokio Marine Australia", dates:"Feb – Apr", program:"General Insurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.tokiomarine.com/au/en/about-us/careers.html", notes:"Part of one of Japan's largest insurance groups; small Australian team; actuarial roles in GI pricing and reserving; limited graduate intake.", status:"" },
+
   { sector:"General", company:"Arch Insurance Australia", dates:"Feb – Apr", program:"Insurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.archgroup.com/careers", notes:"Specialty insurer; small Australian actuarial team; niche focus on specialty and casualty lines.", status:"" },
   { sector:"General", company:"Berkshire Hathaway Specialty Insurance", dates:"Feb – Apr", program:"Insurance", interest:"Low–Med", intake:"Small", type:"Grad", prePenu:"", link:"https://www.bhspecialty.com/careers/", notes:"Backed by Berkshire Hathaway; focuses on commercial lines; small but reputable team; limited graduate intake.", status:"" },
   { sector:"General", company:"Zurich Cover-More", dates:"Feb – Apr", program:"Travel Insurance", interest:"Low", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.covermore.com/au/about/careers", notes:"Travel and assistance insurance; part of Zurich Group; niche actuarial work in travel risk and pricing; smaller team than parent.", status:"" },
@@ -3962,7 +4007,6 @@ const COMPANIES = [
   { sector:"General", company:"NTI Limited", dates:"Feb – Apr", program:"Transport Insurance", interest:"Low", intake:"Small", type:"Grad", prePenu:"", link:"https://www.nti.com.au/about-nti/careers", notes:"Specialist heavy vehicle and transport insurer; niche actuarial work in a unique book of business; small team, early responsibility.", status:"" },
 
   // Reinsurance
-  { sector:"Reinsurance", company:"SCOR", dates:"Feb – Mar", program:"Reinsurance", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.scor.com/en/careers", notes:"Reinsurance company; actuarial work includes risk modelling and capital management; good international opportunities.", status:"" },
   { sector:"Reinsurance", company:"Munich Re", dates:"Feb – Mar", program:"Pricing / Capital", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.munichre.com/careers", notes:"Leading reinsurance company; global exposure; strong focus on pricing and capital modelling; ideal for later-career international experience.", status:"" },
   { sector:"Reinsurance", company:"Swiss Re", dates:"Feb – Mar", program:"Advanced Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"Apprenticeship Program", link:"https://careers.swissre.com", notes:"Global reinsurance giant; summer internship available to penultimate-year students; actuarial interns work on capital models, catastrophe modelling, and reserving.", status:"" },
   { sector:"Reinsurance", company:"Gen Re", dates:"Feb – Mar", program:"Actuarial", interest:"Medium", intake:"Small", type:"Grad + Intern", prePenu:"", link:"https://www.genre.com/us/careers", notes:"Specialized in reinsurance; small team offers hands-on experience; exposure to pricing, reserving, and analytics.", status:"" },
@@ -5273,11 +5317,14 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   // Escape key closes whichever modal is open
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeModal(); closeHelp(); closeFeedback(); closeImportModal(); closeAboutMe(); closeChangelog(); if(typeof closeDonate==='function') closeDonate(); if(typeof closeReview==='function') closeReview(); }
+    if (e.key === 'Escape') { closeModal(); closeHelp(); closeFeedback(); closeImportModal(); closeAboutMe(); closeChangelog(); if(typeof closeDonate==='function') closeDonate(); if(typeof closeReview==='function') closeReview(); if(typeof closeReminder==='function') closeReminder(); }
   });
 
   // Init help button pulse for first-time visitors
   initHelpPulse();
+
+  // Monthly feedback reminder
+  checkMonthlyReminder();
 
 });
 
@@ -6826,6 +6873,42 @@ function mInitHelpPulse() {
 }
 </script>
 
+<!-- ── MONTHLY REMINDER MODAL ── -->
+<div class="modal-overlay" id="reminderModal">
+  <div class="modal reminder-modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <div class="modal-title">A quick <span>reminder</span> 👋</div>
+      <button class="modal-close" onclick="closeReminder()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="reminder-body">
+        <div class="reminder-icon">🗓️</div>
+        <p class="reminder-lead">It's a new month — worth taking 60 seconds?</p>
+        <p class="reminder-text">This tracker stays useful because of people who flag outdated dates, suggest new companies, and share their experience. Your feedback — even a single sentence — directly shapes what gets updated next.</p>
+        <div class="reminder-reasons">
+          <div class="reminder-reason"><span class="rr-dot" style="background:var(--accent)"></span>Keep application dates accurate for everyone</div>
+          <div class="reminder-reason"><span class="rr-dot" style="background:var(--accent2)"></span>Help flag companies that are missing or wrong</div>
+          <div class="reminder-reason"><span class="rr-dot" style="background:var(--green)"></span>A review helps other students know the tracker is trustworthy</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-footer reminder-footer">
+      <button class="btn-cancel" onclick="closeReminder()">Maybe later</button>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeReminder();openFeedback();">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Give Feedback
+        </button>
+        <button class="btn-add" onclick="closeReminder();openReview();">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Leave a Review
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── DONATE MODAL ── -->
 <div class="modal-overlay" id="donateModal">
   <div class="modal donate-modal" role="dialog" aria-modal="true">
@@ -6865,6 +6948,38 @@ function mInitHelpPulse() {
 </div>
 
 <script>
+// ── MONTHLY REMINDER ──
+const REMINDER_KEY = 'mq_reminder_last_shown';
+
+function openReminder() {
+  document.body.classList.add('modal-open');
+  document.getElementById('reminderModal').classList.add('open');
+}
+
+function closeReminder() {
+  document.getElementById('reminderModal').classList.remove('open');
+  if (!document.querySelector('.modal-overlay.open')) document.body.classList.remove('modal-open');
+}
+
+function checkMonthlyReminder() {
+  const now = new Date();
+  // Only fire on the 1st of the month
+  if (now.getDate() !== 1) return;
+  const stored = localStorage.getItem(REMINDER_KEY);
+  if (stored) {
+    const last = new Date(stored);
+    // Already shown this month on the 1st
+    if (last.getFullYear() === now.getFullYear() && last.getMonth() === now.getMonth()) return;
+  }
+  // Mark as shown for this month then open after a short delay
+  localStorage.setItem(REMINDER_KEY, now.toISOString());
+  setTimeout(openReminder, 1200);
+}
+
+document.getElementById('reminderModal').addEventListener('click', function(e) {
+  if (e.target === this) closeReminder();
+});
+
 function openDonate() {
   document.body.classList.add('modal-open');
   const modal = document.getElementById('donateModal');
