@@ -6963,15 +6963,13 @@ function closeReminder() {
 
 function checkMonthlyReminder() {
   const now = new Date();
-  // Only fire on the 1st of the month
-  if (now.getDate() !== 1) return;
   const stored = localStorage.getItem(REMINDER_KEY);
   if (stored) {
     const last = new Date(stored);
-    // Already shown this month on the 1st
+    // Already shown this calendar month — skip
     if (last.getFullYear() === now.getFullYear() && last.getMonth() === now.getMonth()) return;
   }
-  // Mark as shown for this month then open after a short delay
+  // First open of a new month (any day) — record it and show after a short delay
   localStorage.setItem(REMINDER_KEY, now.toISOString());
   setTimeout(openReminder, 1200);
 }
