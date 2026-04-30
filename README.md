@@ -1,6 +1,6 @@
 # 🇦🇺 Actuarial Tracker — Australia
 
-> A free, all-in-one graduate & internship application tracker used by over 600 actuarial students across Australia.
+> A free, all-in-one graduate & internship application tracker used by over 700 actuarial students across Australia.
 
 ---
 
