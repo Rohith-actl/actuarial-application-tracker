@@ -1,12 +1,12 @@
 # 🇦🇺 Actuarial Tracker — Australia
 
-> A free, all-in-one graduate & internship application tracker used by over 700 actuarial students across Australia.
+> A free, all-in-one graduate & internship application tracker used by over 1000 actuarial students across Australia.
 
 ---
 
 ## What is this?
 
-Breaking into the actuarial profession is competitive. With 100+ companies across every major sector — general insurance, life, health, superannuation, banking, consulting, reinsurance, investments, and government — knowing where to apply, when, and how to stand out is genuinely hard.
+Breaking into the actuarial profession is competitive. With 110+ companies across every major sector — general insurance, life, health, superannuation, banking, consulting, reinsurance, investments, and government — knowing where to apply, when, and how to stand out is genuinely hard.
 
 This tracker was built to solve that. It's a single, beautifully designed web app that gives you everything in one place: curated company data, application tracking, career advice from professionals, and a clean interface you'll actually want to use.
 
@@ -16,7 +16,7 @@ It's free. It's private. And it's built by a student, for students.
 
 ## Features
 
-### 📋 Over 100 Companies, Fully Curated
+### 📋 Over 110 Companies, Fully Curated
 Every major actuarial employer in Australia, organised by sector. Each entry includes:
 - Application open/close dates
 - Programme type (pricing, valuation, consulting, risk, etc.)
